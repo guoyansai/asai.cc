@@ -1,0 +1,1 @@
+﻿if(ver<10){document.write("<a href='http://shua.asai.cc/' target=_blank><font color=red>最新版《阿赛在线刷流量10》提供免费下载！</font></a>");}
