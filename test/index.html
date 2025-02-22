@@ -6,12 +6,12 @@
     <title>阿赛个人网站</title>
     <style>
       :root {
-        --palace-red: #9d2933;
-        --indigo: #2a4365; /* 新增青花蓝 */
-        --sand-beige: #f3e9d2;
-        --gold: #c5a049;
-        --slate-gray: #4a5568; /* 新增石板灰 */
-        --light-gray: #f7fafc;
+        --palace-red: #9d2933; /* 故宫红 */
+        --indigo: #2a4365; /* 宫墙青 */
+        --sand-beige: #f3e9d2; /* 宫墙米色 */
+        --gold: #c5a049; /* 金色 */
+        --slate-gray: #4a5568; /* 石板灰 */
+        --light-gray: #f7fafc; /* 浅灰 */
       }
 
       * {
@@ -160,30 +160,154 @@
       .card:hover {
         transform: translateY(-5px);
       }
-
-      .timeline {
+      /* 时间轴容器 */
+      .timeline-container {
         position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
         padding: 3rem 0;
       }
 
-      .timeline::before {
+      /* 时间轴装饰线 */
+      .timeline-container::before {
         content: "";
         position: absolute;
+        top: 0;
         left: 50%;
         width: 4px;
         height: 100%;
         background: var(--sand-beige);
         transform: translateX(-50%);
+        z-index: 1;
       }
 
+      /* 时间轴条目 */
       .timeline-item {
         position: relative;
-        width: calc(50% - 2rem);
-        padding: 2rem;
+        z-index: 2;
+      }
+
+      /* 左右交替布局 */
+      .timeline-item:nth-child(odd) {
+        grid-column: 1;
+        padding-right: 2rem;
+        text-align: right;
+      }
+
+      .timeline-item:nth-child(even) {
+        grid-column: 2;
+        padding-left: 2rem;
+      }
+
+      /* 内容容器 */
+      .timeline-content {
         background: white;
         border-radius: 15px;
-        margin: 2rem 0;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      /* 图标装饰 */
+      .timeline-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--palace-red);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: -25px;
+        right: -25px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-icon {
+        left: -25px;
+        right: auto;
+      }
+
+      .timeline-icon svg {
+        width: 24px;
+        height: 24px;
+        stroke: white;
+      }
+
+      /* 标题样式 */
+      .timeline-title {
+        color: var(--indigo);
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+
+      /* 文字内容 */
+      .timeline-text {
+        color: var(--slate-gray);
+        line-height: 1.6;
+      }
+      /* 文本板块基础样式 */
+      .text-section {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+      }
+
+      /* 左侧装饰 */
+      .paragraph-container {
+        position: relative;
+        border-left: 0.3rem dotted var(--gold);
+      }
+
+      /* 段落组样式 */
+      .paragraph-group {
+        padding: 0 2rem;
+        margin-bottom: 4rem;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+      }
+
+      .paragraph-group.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .paragraph-title {
+        color: var(--indigo);
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .paragraph-title::before {
+        content: "";
+        position: absolute;
+        left: -2.6rem;
+        top: 50%;
+        width: 1rem;
+        height: 1rem;
+        background: var(--palace-red);
+        border-radius: 50%;
+        transform: translateY(-50%);
+      }
+
+      .paragraph-text {
+        color: var(--slate-gray);
+        line-height: 1.8;
+        column-count: 2;
+        column-gap: 3rem;
+      }
+
+      .paragraph-text p {
+        margin-bottom: 1.5rem;
+        text-indent: 2em;
       }
 
       /* 底部样式 */
@@ -301,6 +425,10 @@
         .hero-title {
           font-size: 2.8rem;
         }
+
+        .paragraph-text {
+          column-count: 1;
+        }
       }
 
       @media (max-width: 768px) {
@@ -329,19 +457,39 @@
 
         .hero-title {
           font-size: 2.2rem;
+          margin-top: 1.5rem;
+          margin-bottom: 1rem;
         }
 
         .section-title {
           font-size: 1.8rem;
         }
 
-        .timeline::before {
-          left: 30px;
+        .timeline-container {
+          grid-template-columns: 1fr;
+        }
+
+        .timeline-container::before {
+          left: 0;
         }
 
         .timeline-item {
-          width: calc(100% - 4rem);
-          margin-left: 2rem;
+          margin-left: 50px;
+          padding: 0 !important;
+          text-align: left !important;
+        }
+
+        .timeline-item:nth-child(even) {
+          grid-column: 1;
+        }
+
+        .timeline-icon {
+          left: -25px !important;
+          right: auto !important;
+        }
+
+        .paragraph-title {
+          font-size: 1.5rem;
         }
 
         .footer-grid {
@@ -363,16 +511,13 @@
       }
 
       @media (max-width: 480px) {
-        .hero-title {
-          font-size: 2.2rem;
-        }
         .card-grid {
           grid-template-columns: 1fr;
         }
       }
 
       /* 特色区块 */
-      .feature-block {
+      .special-block {
         background: var(--sand-beige);
         border-radius: 16px;
         padding: 3rem;
@@ -408,12 +553,12 @@
       <div class="nav-brand">阿赛个人网站</div>
       <button class="menu-toggle" onclick="toggleMenu()">☰</button>
       <div class="nav-links">
-        <a href="#about">关于阿赛</a>
-        <a href="#opensource">开源社区</a>
-        <a href="#docs">技术文档</a>
-        <a href="#download">产品下载</a>
-        <a href="#literature">文学文艺</a>
-        <a href="#user">用户中心</a>
+        <a href="#aboutasai">关于阿赛</a>
+        <a href="#fieldasai">技术领域</a>
+        <a href="#groupasai">成长脚印</a>
+        <a href="#openasai">开源项目</a>
+        <a href="#linkasai">作品快链</a>
+        <a href="#userasai">用户中心</a>
       </div>
     </nav>
 
@@ -428,7 +573,7 @@
       </section>
 
       <!-- 关于阿赛 -->
-      <section id="about">
+      <section id="aboutasai">
         <div class="section-header">
           <h2 class="section-title">关于阿赛</h2>
         </div>
@@ -448,46 +593,147 @@
         </div>
       </section>
 
-      <!-- 开源社区 -->
-      <section id="opensource" class="feature-block">
+      <!-- 技术领域 -->
+      <section id="fieldasai" class="special-block">
+        <div class="text-section">
+          <!-- 主标题 -->
+          <div class="section-header">
+            <h2 class="section-title">技术领域</h2>
+          </div>
+          <!-- 文本容器 -->
+          <div class="paragraph-container">
+            <!-- 段落组 -->
+            <div class="paragraph-group">
+              <h3 class="paragraph-title">技术创新的探索者</h3>
+              <div class="paragraph-text">
+                <p>
+                  作为一名全栈工程师，我始终站在技术前沿，致力于将创新理念转化为实际应用。从分布式系统架构到前端性能优化，从微服务设计到DevOps实践，我不断探索着技术的边界。
+                </p>
+                <p>
+                  在过去十年中，我主导开发了多个高星开源项目，其中NextFramework框架在GitHub上获得了超过5000颗星标，被广泛应用于企业级应用开发。
+                </p>
+              </div>
+            </div>
+
+            <!-- 段落组 -->
+            <div class="paragraph-group">
+              <h3 class="paragraph-title">数字艺术的实践者</h3>
+              <div class="paragraph-text">
+                <p>
+                  在技术之外，我热衷于探索数字艺术的无限可能。通过代码创作视觉艺术作品，将算法与美学完美结合。我的作品曾在多个数字艺术展展出，并获得了业界的广泛认可。
+                </p>
+                <p>
+                  开发了ArtifyAI工具，利用深度学习技术实现艺术风格迁移，让每个人都能轻松创作出独特的数字艺术作品。
+                </p>
+              </div>
+            </div>
+
+            <!-- 段落组 -->
+            <div class="paragraph-group">
+              <h3 class="paragraph-title">技术文化的传播者</h3>
+              <div class="paragraph-text">
+                <p>
+                  作为技术社区的活跃成员，我定期在技术会议上发表演讲，分享最新的技术趋势和实践经验。同时，我也是一名技术作家，已出版三本技术专著，其中《从代码到诗歌》连续12周位居技术图书畅销榜。
+                </p>
+                <p>
+                  通过线上线下相结合的方式，我致力于推动技术文化的传播，帮助更多人了解和掌握前沿技术。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 成长脚印 -->
+      <section id="groupasai">
         <div class="section-header">
-          <h2 class="section-title">开源项目</h2>
+          <h2 class="section-title">成长脚印</h2>
+        </div>
+        <div class="timeline-container">
+          <!-- 时间轴条目 -->
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </div>
+              <div class="timeline-body">
+                <h3 class="timeline-title">2015 - 创立首个开源项目</h3>
+                <p class="timeline-text">
+                  发布轻量级Web框架，获得开发者社区广泛关注，GitHub Star数突破1k
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 时间轴条目 -->
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path
+                    d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                  />
+                </svg>
+              </div>
+              <div class="timeline-body">
+                <h3 class="timeline-title">2018 - 出版技术专著</h3>
+                <p class="timeline-text">
+                  《从代码到诗歌》连续12周位居技术图书畅销榜，获年度最佳技术图书奖
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 开源项目 -->
+      <section id="openasai" class="special-block">
+        <div class="text-section">
+          <div class="section-header">
+            <h2 class="section-title">开源项目</h2>
+          </div>
+          <div class="card-grid">
+            <div class="card">
+              <h3>NextFramework</h3>
+              <p>高性能Java开发框架，采用响应式编程模型，已获2k+ Star</p>
+            </div>
+            <div class="card">
+              <h3>ArtifyAI</h3>
+              <p>基于深度学习的艺术风格迁移工具，支持实时视频处理</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 作品快链 -->
+      <section id="linkasai">
+        <div class="section-header">
+          <h2 class="section-title">作品快链</h2>
         </div>
         <div class="card-grid">
           <div class="card">
-            <h3>NextFramework</h3>
-            <p>高性能Java开发框架，采用响应式编程模型，已获2k+ Star</p>
+            <h3>技术背景</h3>
+            <p>
+              全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+            </p>
           </div>
           <div class="card">
-            <h3>ArtifyAI</h3>
-            <p>基于深度学习的艺术风格迁移工具，支持实时视频处理</p>
+            <h3>文艺创作</h3>
+            <p>
+              出版技术散文集《代码与诗》，业余从事数字艺术创作，探索AI生成艺术的创新应用...
+            </p>
           </div>
         </div>
       </section>
 
       <!-- 用户中心 -->
-      <section id="user">
+      <section id="userasai">
         <div class="user-panel">
           <h2 class="section-title" style="color: white">用户中心</h2>
           <p>获取最新资源、参与社区讨论、管理个人账户</p>
           <a href="#login" class="btn" style="margin-top: 1.5rem">立即登录</a>
-        </div>
-      </section>
-
-      <!-- 时间轴 -->
-      <section class="section" id="timeline">
-        <div class="section-header">
-          <h2 class="section-title">成长轨迹</h2>
-        </div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <h3>2015 - 创立首个开源项目</h3>
-            <p>发布轻量级Web框架，获得开发者社区广泛关注...</p>
-          </div>
-          <div class="timeline-item">
-            <h3>2018 - 出版技术专著</h3>
-            <p>《从代码到诗歌》连续12周位居技术图书畅销榜...</p>
-          </div>
         </div>
       </section>
     </main>
@@ -512,8 +758,8 @@
           <div class="footer-section">
             <h4 class="footer-title">快速导航</h4>
             <ul class="footer-links">
-              <li><a href="#about">关于作者</a></li>
-              <li><a href="#opensource">开源项目</a></li>
+              <li><a href="#aboutasai">关于作者</a></li>
+              <li><a href="#openasai">开源项目</a></li>
               <li><a href="#download">资源下载</a></li>
               <li><a href="#contact">联系合作</a></li>
             </ul>
@@ -552,14 +798,18 @@
           }
         });
       });
-
-      document.querySelectorAll(".card, .timeline-item").forEach((el) => {
-        el.style.opacity = 0;
-        el.style.transform = "translateY(30px)";
-        el.style.transition = "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
-        observer.observe(el);
+      // 段落滚动动画
+      const paragraphObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
       });
 
+      document.querySelectorAll(".paragraph-group").forEach((el) => {
+        paragraphObserver.observe(el);
+      });
       // 为所有卡片添加动画
       document.querySelectorAll(".card").forEach((el) => {
         el.style.opacity = 0;
