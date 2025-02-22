@@ -2,23 +2,55 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <title>音乐播放器</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0"
+    />
+    <title>阿赛原创音乐</title>
     <style>
+      :root {
+        --main-color: #3498db;
+        --cover-size: min(60vw, 300px);
+        --control-size: 2.5rem;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        touch-action: manipulation;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        padding: 10px;
+        background: #f0f3f5;
+      }
+
       .player {
-        width: 400px;
-        margin: 20px auto;
-        padding: 20px;
-        background: #f5f5f5;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: min(95%, 600px);
+        margin: 1rem auto;
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       }
 
       .cover {
-        width: 200px;
-        height: 200px;
-        margin: 0 auto;
+        width: var(--cover-size);
+        height: var(--cover-size);
+        margin: 0 auto 1.5rem;
         border-radius: 50%;
         overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        animation: rotateCover 20s linear infinite;
+        animation-play-state: paused;
+      }
+
+      .cover.playing {
+        animation-play-state: running;
       }
 
       .cover img {
@@ -29,842 +61,986 @@
 
       .info {
         text-align: center;
-        margin: 15px 0;
+        margin-bottom: 1.5rem;
+      }
+
+      .info h3 {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+      }
+
+      .info p {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+        color: #7f8c8d;
       }
 
       .controls {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 15px 0;
+        gap: 1rem;
+        margin: 1.5rem 0;
       }
 
       button {
         background: none;
         border: none;
         cursor: pointer;
-        font-size: 24px;
-        margin: 0 10px;
-        padding: 5px;
+        font-size: var(--control-size);
+        color: var(--main-color);
+        padding: 0.5rem;
+        transition: transform 0.2s ease;
+        user-select: none;
       }
 
-      .progress {
+      button:active {
+        transform: scale(0.9);
+      }
+
+      .progress-container {
         width: 100%;
-        height: 4px;
-        background: #ddd;
+        height: 6px;
+        background: #e0e0e0;
+        border-radius: 3px;
         cursor: pointer;
-        margin: 10px 0;
+        margin: 1rem 0;
       }
 
       .progress-bar {
         height: 100%;
-        background: #3498db;
+        background: var(--main-color);
+        border-radius: 3px;
         width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      .time-display {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        margin-bottom: 1rem;
       }
 
       .playlist {
         list-style: none;
         padding: 0;
         margin: 0;
-        max-height: 200px;
+        max-height: 40vh;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .playlist li {
-        padding: 10px;
+        padding: 0.8rem 1rem;
         cursor: pointer;
         border-bottom: 1px solid #eee;
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        transition: background 0.2s ease;
       }
 
-      .playlist li:hover {
-        background: #eee;
+      .playlist li:last-child {
+        border-bottom: none;
+      }
+
+      .playlist li:hover,
+      .playlist li.active {
+        background: rgba(52, 152, 219, 0.1);
       }
 
       .playlist li.active {
-        background: #3498db;
-        color: white;
+        color: var(--main-color);
+        font-weight: 500;
       }
-      .time-display {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        color: #666;
-        margin: 5px 0;
+
+      @media (min-width: 768px) {
+        :root {
+          --cover-size: 220px;
+          --control-size: 3rem;
+        }
+        .player {
+          padding: 2rem;
+        }
+      }
+
+      @keyframes rotateCover {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body>
     <div class="player">
       <div class="cover">
-        <img id="cover" src="默认封面图片地址" />
+        <img id="cover" src="./music/fm.png" alt="专辑封面" />
       </div>
       <div class="info">
         <h3 id="title">歌曲标题</h3>
         <p id="artist">艺术家</p>
       </div>
       <div class="controls">
-        <button onclick="prev()">⏮</button>
-        <button onclick="togglePlay()" id="playBtn">▶</button>
-        <button onclick="next()">⏭</button>
-      </div>
-      <div class="progress" onclick="seek(event)">
-        <div class="progress-bar" id="progress"></div>
+        <button onclick="prev()" aria-label="上一首">⏮</button>
+        <button onclick="togglePlay()" id="playBtn" aria-label="播放">▶</button>
+        <button onclick="next()" aria-label="下一首">⏭</button>
       </div>
       <div class="time-display">
         <span id="currentTime">00:00</span>
         <span id="duration">00:00</span>
       </div>
+      <div class="progress-container" onclick="seek(event)">
+        <div class="progress-bar" id="progress"></div>
+      </div>
       <ul class="playlist" id="playlist"></ul>
     </div>
 
     <script>
-      // 音乐列表数据
-      var playlist = [
-        {
-          title: "不再为你流泪",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/不再为你流泪.mp3",
-        },
-        {
-          title: "别再说你后悔",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/别再说你后悔.mp3",
-        },
-        {
-          title: "沉默时间",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/沉默时间.mp3",
-        },
-        {
-          title: "工作在蔷薇的怀抱里面-混音版",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/工作在蔷薇的怀抱里面-混音版.mp3",
-        },
-        {
-          title: "想飞的魚",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/想飞的魚.mp3",
-        },
-        {
-          title: "黑客",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/黑客.mp3",
-        },
-        {
-          title: "呀咦",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/呀咦.mp3",
-        },
-        {
-          title: "人世的喧哗",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/人世的喧哗.mp3",
-        },
-        {
-          title: "我们现在没避风港-拨弦",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我们现在没避风港-拨弦.mp3",
-        },
-        {
-          title: "Da Geiu Da Geiu Do",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/Da-Geiu-Da-Geiu-Do.mp3",
-        },
-        {
-          title: "Goodbye My Loving",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/Goodbye-My-Loving.wma",
-        },
-        {
-          title: "阿莲",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/阿莲.mp3",
-        },
-        {
-          title: "爱理不理",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/爱理不理.mp3",
-        },
-        {
-          title: "爱你多一点",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/爱你多一点.wma",
-        },
-        {
-          title: "爱无题",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/爱无题.mp3",
-        },
-        {
-          title: "爱这一回",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/爱这一回.mp3",
-        },
-        {
-          title: "悲爱歌谣",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/悲爱歌谣.mp3",
-        },
-        {
-          title: "悲伤着浪荡",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/悲伤着浪荡.mp3",
-        },
-        {
-          title: "唱一首歌",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/唱一首歌.mp3",
-        },
-        {
-          title: "沉默时间-1",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/沉默时间-1.mp3",
-        },
-        {
-          title: "多怕分手",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/多怕分手.mp3",
-        },
-        {
-          title: "恶毒花",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/恶毒花.mp3",
-        },
-        {
-          title: "飞上天 和你见",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/飞上天-和你见.mp3",
-        },
-        {
-          title: "风 刮走了梦",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/风-刮走了梦.mp3",
-        },
-        {
-          title: "给我爱的莲",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/给我爱的莲.mp3",
-        },
-        {
-          title: "工作在蔷薇的怀抱里面-吉他版",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/工作在蔷薇的怀抱里面-吉他版.mp3",
-        },
-        {
-          title: "孤寂的沉默",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/孤寂的沉默.mp3",
-        },
-        {
-          title: "过去",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/过去.wma",
-        },
-        {
-          title: "还记得我吗",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/还记得我吗.mp3",
-        },
-        {
-          title: "好久没写歌",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/好久没写歌.mp3",
-        },
-        {
-          title: "恨死你-1",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/恨死你-1.mp3",
-        },
-        {
-          title: "恨死你",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/恨死你.mp3",
-        },
-        {
-          title: "湖边的许愿树",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/湖边的许愿树.mp3",
-        },
-        {
-          title: "怀疑",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/怀疑.wma",
-        },
-        {
-          title: "见面 永远",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/见面-永远.mp3",
-        },
-        {
-          title: "脚下的路",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/脚下的路.wma",
-        },
-        {
-          title: "借口 错不在我",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/借口-错不在我.mp3",
-        },
-        {
-          title: "静夜思",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/静夜思.mp3",
-        },
-        {
-          title: "流浪歌手的情人[简]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/流浪歌手的情人[简].mp3",
-        },
-        {
-          title: "盲",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/盲.mp3",
-        },
-        {
-          title: "没有你的画面",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/没有你的画面.mp3",
-        },
-        {
-          title: "美语",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/美语.mp3",
-        },
-        {
-          title: "你说放手就放手",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/你说放手就放手.mp3",
-        },
-        {
-          title: "你握着我的手",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/你握着我的手.mp3",
-        },
-        {
-          title: "你要我怎么做",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/你要我怎么做.mp3",
-        },
-        {
-          title: "让风吹动秀发",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/让风吹动秀发.mp3",
-        },
-        {
-          title: "让你飞,我不追",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/让你飞-我不追.wma",
-        },
-        {
-          title: "热血天涯",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/热血天涯.mp3",
-        },
-        {
-          title: "如果世界上面没有阳光",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/如果世界上面没有阳光.mp3",
-        },
-        {
-          title: "如果这辈子",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/如果这辈子.mp3",
-        },
-        {
-          title: "说过不唱哀伤的歌",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/说过不唱哀伤的歌.mp3",
-        },
-        {
-          title: "说什么[话二]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/说什么-2.mp3",
-        },
-        {
-          title: "说什么[话一]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/说什么-1.mp3",
-        },
-        {
-          title: "天冷了",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/天冷了.mp3",
-        },
-        {
-          title: "痛",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/痛.wma",
-        },
-        {
-          title: "偷偷地爱你",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/偷偷地爱你.mp3",
-        },
-        {
-          title: "望断秋水 望断你",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/望断秋水-望断你.mp3",
-        },
-        {
-          title: "望月",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/望月.mp3",
-        },
-        {
-          title: "我爱你爱你爱你",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我爱你爱你爱你.mp3",
-        },
-        {
-          title: "我不想.....",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我不想.wma",
-        },
-        {
-          title: "我的主人",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我的主人.mp3",
-        },
-        {
-          title: "我们现在没避风港-扫弦",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我们现在没避风港-扫弦.mp3",
-        },
-        {
-          title: "我现在在学校不好好学习",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我现在在学校不好好学习.mp3",
-        },
-        {
-          title: "我现在真的明白原来爱好痛",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/我现在真的明白原来爱好痛.mp3",
-        },
-        {
-          title: "无论我怎么想 怎么讲",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/无论我怎么想-怎么讲.mp3",
-        },
-        {
-          title: "香水味",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/香水味.mp3",
-        },
-        {
-          title: "想飞的魚-1",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/想飞的魚-1.mp3",
-        },
-        {
-          title: "小鸟",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/小鸟.mp3",
-        },
-        {
-          title: "新流浪歌手的情人",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人.mp3",
-        },
-        {
-          title: "呀咦",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/呀咦.mp3",
-        },
-        {
-          title: "也许",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/也许.mp3",
-        },
-        {
-          title: "夜色的爱",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/夜色的爱.mp3",
-        },
-        {
-          title: "一次次",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/一次次.mp3",
-        },
-        {
-          title: "一起勇敢",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/一起勇敢.mp3",
-        },
-        {
-          title: "一心一意",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/一心一意.mp3",
-        },
-        {
-          title: "因为爱",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/因为爱.mp3",
-        },
-        {
-          title: "有的时候，爱的以后",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/有的时候-爱的以后.mp3",
-        },
-        {
-          title: "再见我的爱",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/再见我的爱.wma",
-        },
-        {
-          title: "只有我如此孤独-混音版",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/只有我如此孤独-混音版.mp3",
-        },
-        {
-          title: "只有我如此孤独-吉他版",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/只有我如此孤独-吉他版.mp3",
-        },
-        {
-          title: "猪头啊！你！",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/猪头啊-你.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[序]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/0.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[一、缘]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/1.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[二、逢]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/2.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[三、见 ]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/3.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[四、伤]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/4.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[五、乱]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/5.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[六、赌]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/6.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[七、友]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/7.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[八、哭]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/8.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[九、等 ]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/9.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十、病 ]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/10.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十一、命 ]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/11.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十二、路]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/12.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十三、寻]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/13.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十四、累]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/14.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十五、醉]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/15.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十六、醒]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/16.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十七、归]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/17.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十八、静]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/18.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[十九、糟]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/19.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[二十、变]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/20.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[二十一、雁]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/21.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[二十二、分]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/22.mp3",
-        },
-        {
-          title: "新流浪歌手的情人[二十三、聚]",
-          artist: "阿赛",
-          cover: "./music/fm.png",
-          src: "./music/新流浪歌手的情人/23.mp3",
-        },
-      ];
+      (function () {
+        "use strict";
 
-      let currentTrack = 0;
-      const audio = new Audio();
-      let isPlaying = false;
+        // 音乐列表数据
+        var playlist = [
+          {
+            title: "不再为你流泪",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/不再为你流泪.mp3",
+          },
+          {
+            title: "别再说你后悔",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/别再说你后悔.mp3",
+          },
+          {
+            title: "沉默时间",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/沉默时间.mp3",
+          },
+          {
+            title: "工作在蔷薇的怀抱里面-混音版",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/工作在蔷薇的怀抱里面-混音版.mp3",
+          },
+          {
+            title: "想飞的魚",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/想飞的魚.mp3",
+          },
+          {
+            title: "黑客",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/黑客.mp3",
+          },
+          {
+            title: "呀咦",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/呀咦.mp3",
+          },
+          {
+            title: "人世的喧哗",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/人世的喧哗.mp3",
+          },
+          {
+            title: "我们现在没避风港-拨弦",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我们现在没避风港-拨弦.mp3",
+          },
+          {
+            title: "Da Geiu Da Geiu Do",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/Da-Geiu-Da-Geiu-Do.mp3",
+          },
+          {
+            title: "Goodbye My Loving",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/Goodbye-My-Loving.wma",
+          },
+          {
+            title: "阿莲",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/阿莲.mp3",
+          },
+          {
+            title: "爱理不理",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/爱理不理.mp3",
+          },
+          {
+            title: "爱你多一点",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/爱你多一点.wma",
+          },
+          {
+            title: "爱无题",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/爱无题.mp3",
+          },
+          {
+            title: "爱这一回",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/爱这一回.mp3",
+          },
+          {
+            title: "悲爱歌谣",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/悲爱歌谣.mp3",
+          },
+          {
+            title: "悲伤着浪荡",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/悲伤着浪荡.mp3",
+          },
+          {
+            title: "唱一首歌",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/唱一首歌.mp3",
+          },
+          {
+            title: "沉默时间-1",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/沉默时间-1.mp3",
+          },
+          {
+            title: "多怕分手",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/多怕分手.mp3",
+          },
+          {
+            title: "恶毒花",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/恶毒花.mp3",
+          },
+          {
+            title: "飞上天 和你见",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/飞上天-和你见.mp3",
+          },
+          {
+            title: "风 刮走了梦",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/风-刮走了梦.mp3",
+          },
+          {
+            title: "给我爱的莲",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/给我爱的莲.mp3",
+          },
+          {
+            title: "工作在蔷薇的怀抱里面-吉他版",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/工作在蔷薇的怀抱里面-吉他版.mp3",
+          },
+          {
+            title: "孤寂的沉默",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/孤寂的沉默.mp3",
+          },
+          {
+            title: "过去",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/过去.wma",
+          },
+          {
+            title: "还记得我吗",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/还记得我吗.mp3",
+          },
+          {
+            title: "好久没写歌",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/好久没写歌.mp3",
+          },
+          {
+            title: "恨死你-1",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/恨死你-1.mp3",
+          },
+          {
+            title: "恨死你",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/恨死你.mp3",
+          },
+          {
+            title: "湖边的许愿树",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/湖边的许愿树.mp3",
+          },
+          {
+            title: "怀疑",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/怀疑.wma",
+          },
+          {
+            title: "见面 永远",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/见面-永远.mp3",
+          },
+          {
+            title: "脚下的路",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/脚下的路.wma",
+          },
+          {
+            title: "借口 错不在我",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/借口-错不在我.mp3",
+          },
+          {
+            title: "静夜思",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/静夜思.mp3",
+          },
+          {
+            title: "流浪歌手的情人[简]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/流浪歌手的情人[简].mp3",
+          },
+          {
+            title: "盲",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/盲.mp3",
+          },
+          {
+            title: "没有你的画面",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/没有你的画面.mp3",
+          },
+          {
+            title: "美语",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/美语.mp3",
+          },
+          {
+            title: "你说放手就放手",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/你说放手就放手.mp3",
+          },
+          {
+            title: "你握着我的手",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/你握着我的手.mp3",
+          },
+          {
+            title: "你要我怎么做",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/你要我怎么做.mp3",
+          },
+          {
+            title: "让风吹动秀发",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/让风吹动秀发.mp3",
+          },
+          {
+            title: "让你飞,我不追",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/让你飞-我不追.wma",
+          },
+          {
+            title: "热血天涯",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/热血天涯.mp3",
+          },
+          {
+            title: "如果世界上面没有阳光",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/如果世界上面没有阳光.mp3",
+          },
+          {
+            title: "如果这辈子",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/如果这辈子.mp3",
+          },
+          {
+            title: "说过不唱哀伤的歌",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/说过不唱哀伤的歌.mp3",
+          },
+          {
+            title: "说什么[话二]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/说什么-2.mp3",
+          },
+          {
+            title: "说什么[话一]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/说什么-1.mp3",
+          },
+          {
+            title: "天冷了",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/天冷了.mp3",
+          },
+          {
+            title: "痛",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/痛.wma",
+          },
+          {
+            title: "偷偷地爱你",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/偷偷地爱你.mp3",
+          },
+          {
+            title: "望断秋水 望断你",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/望断秋水-望断你.mp3",
+          },
+          {
+            title: "望月",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/望月.mp3",
+          },
+          {
+            title: "我爱你爱你爱你",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我爱你爱你爱你.mp3",
+          },
+          {
+            title: "我不想.....",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我不想.wma",
+          },
+          {
+            title: "我的主人",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我的主人.mp3",
+          },
+          {
+            title: "我们现在没避风港-扫弦",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我们现在没避风港-扫弦.mp3",
+          },
+          {
+            title: "我现在在学校不好好学习",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我现在在学校不好好学习.mp3",
+          },
+          {
+            title: "我现在真的明白原来爱好痛",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/我现在真的明白原来爱好痛.mp3",
+          },
+          {
+            title: "无论我怎么想 怎么讲",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/无论我怎么想-怎么讲.mp3",
+          },
+          {
+            title: "香水味",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/香水味.mp3",
+          },
+          {
+            title: "想飞的魚-1",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/想飞的魚-1.mp3",
+          },
+          {
+            title: "小鸟",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/小鸟.mp3",
+          },
+          {
+            title: "新流浪歌手的情人",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人.mp3",
+          },
+          {
+            title: "呀咦",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/呀咦.mp3",
+          },
+          {
+            title: "也许",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/也许.mp3",
+          },
+          {
+            title: "夜色的爱",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/夜色的爱.mp3",
+          },
+          {
+            title: "一次次",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/一次次.mp3",
+          },
+          {
+            title: "一起勇敢",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/一起勇敢.mp3",
+          },
+          {
+            title: "一心一意",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/一心一意.mp3",
+          },
+          {
+            title: "因为爱",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/因为爱.mp3",
+          },
+          {
+            title: "有的时候，爱的以后",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/有的时候-爱的以后.mp3",
+          },
+          {
+            title: "再见我的爱",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/再见我的爱.wma",
+          },
+          {
+            title: "只有我如此孤独-混音版",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/只有我如此孤独-混音版.mp3",
+          },
+          {
+            title: "只有我如此孤独-吉他版",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/只有我如此孤独-吉他版.mp3",
+          },
+          {
+            title: "猪头啊！你！",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/猪头啊-你.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[序]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/0.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[一、缘]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/1.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[二、逢]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/2.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[三、见 ]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/3.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[四、伤]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/4.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[五、乱]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/5.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[六、赌]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/6.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[七、友]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/7.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[八、哭]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/8.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[九、等 ]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/9.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十、病 ]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/10.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十一、命 ]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/11.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十二、路]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/12.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十三、寻]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/13.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十四、累]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/14.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十五、醉]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/15.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十六、醒]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/16.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十七、归]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/17.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十八、静]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/18.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[十九、糟]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/19.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[二十、变]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/20.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[二十一、雁]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/21.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[二十二、分]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/22.mp3",
+          },
+          {
+            title: "新流浪歌手的情人[二十三、聚]",
+            artist: "阿赛",
+            cover: "./music/fm.png",
+            src: "./music/新流浪歌手的情人/23.mp3",
+          },
+        ];
 
-      // 时间格式化函数
-      function formatTime(seconds) {
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min.toString().padStart(2, "0")}:${sec
-          .toString()
-          .padStart(2, "0")}`;
-      }
+        let currentTrack = 0;
+        const audio = new Audio();
+        let isPlaying = false;
+        let isDragging = false;
 
-      // 初始化播放列表
-      function initPlaylist() {
-        const list = document.getElementById("playlist");
-        playlist.forEach((track, index) => {
-          const li = document.createElement("li");
-          li.textContent = `${track.title} - ${track.artist}`;
-          li.onclick = () => playTrack(index);
-          list.appendChild(li);
-        });
-      }
-
-      // 播放指定曲目
-      function playTrack(index) {
-        currentTrack = index;
-        const track = playlist[index];
-
-        // 更新显示信息
-        document.getElementById("title").textContent = track.title;
-        document.getElementById("artist").textContent = track.artist;
-        document.getElementById("cover").src = track.cover;
-
-        // 重置时间显示
-        document.getElementById("currentTime").textContent = "00:00";
-        document.getElementById("duration").textContent = "00:00";
-
-        // 加载新音频
-        audio.src = track.src;
-        audio?.play();
-        isPlaying = true;
-        document.getElementById("playBtn").textContent = "⏸";
-
-        // 监听元数据加载完成事件
-        audio.onloadedmetadata = () => {
-          document.getElementById("duration").textContent = formatTime(
-            audio.duration
-          );
+        // DOM缓存
+        const dom = {
+          cover: document.getElementById("cover"),
+          title: document.getElementById("title"),
+          artist: document.getElementById("artist"),
+          playBtn: document.getElementById("playBtn"),
+          progress: document.getElementById("progress"),
+          currentTime: document.getElementById("currentTime"),
+          duration: document.getElementById("duration"),
+          playlist: document.getElementById("playlist"),
         };
 
-        // 更新播放列表样式
-        document.querySelectorAll(".playlist li").forEach((li, i) => {
-          li.classList.toggle("active", i === index);
-        });
-      }
-
-      // 播放/暂停切换
-      function togglePlay() {
-        if (isPlaying) {
-          audio.pause();
-          document.getElementById("playBtn").textContent = "▶";
-        } else {
-          audio.play();
-          document.getElementById("playBtn").textContent = "⏸";
+        // 初始化播放器
+        function init() {
+          initPlaylist();
+          initAudio();
+          initTouchEvents();
+          playTrack(0);
         }
-        isPlaying = !isPlaying;
-      }
 
-      // 下一首
-      function next() {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        playTrack(currentTrack);
-      }
+        // 初始化播放列表
+        function initPlaylist() {
+          const fragment = document.createDocumentFragment();
+          playlist.forEach((track, index) => {
+            const li = document.createElement("li");
+            li.textContent = `${track.title} - ${track.artist}`;
+            li.onclick = () => playTrack(index);
+            fragment.appendChild(li);
+          });
+          dom.playlist.appendChild(fragment);
+        }
 
-      // 上一首
-      function prev() {
-        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-        playTrack(currentTrack);
-      }
+        // 初始化音频事件
+        function initAudio() {
+          audio.preload = "metadata";
 
-      // 进度条点击跳转
-      function seek(e) {
-        const rect = e.target.getBoundingClientRect();
-        const pos = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = pos * audio.duration;
-      }
+          audio.addEventListener("play", () => {
+            isPlaying = true;
+            updatePlayState();
+          });
 
-      // 更新进度条
-      audio.ontimeupdate = () => {
-        // 更新进度条
-        const progress = (audio.currentTime / audio.duration) * 100;
-        document.getElementById("progress").style.width = `${progress}%`;
+          audio.addEventListener("pause", () => {
+            isPlaying = false;
+            updatePlayState();
+          });
 
-        // 更新时间显示
-        document.getElementById("currentTime").textContent = formatTime(
-          audio.currentTime
-        );
+          audio.addEventListener("timeupdate", updateProgress);
+          audio.addEventListener("loadedmetadata", updateDuration);
+          audio.addEventListener("ended", next);
+          audio.addEventListener("error", handleAudioError);
+        }
 
-        // 首次加载时更新总时长
-        if (!isNaN(audio.duration)) {
-          document.getElementById("duration").textContent = formatTime(
-            audio.duration
+        // 新增：统一更新播放状态
+        function updatePlayState() {
+          // 更新按钮状态
+          dom.playBtn.textContent = isPlaying ? "⏸" : "▶";
+          // 更新封面动画
+          dom.cover.classList.toggle("playing", isPlaying);
+          // 更新播放列表当前项
+          document.querySelectorAll(".playlist li").forEach((li) => {
+            li.classList.remove("active");
+          });
+          dom.playlist.children[currentTrack].classList.add("active");
+        }
+        // 初始化触摸事件
+        function initTouchEvents() {
+          let touchStartX = 0;
+          const threshold = 50;
+
+          document.querySelector(".player").addEventListener(
+            "touchstart",
+            (e) => {
+              touchStartX = e.touches[0].clientX;
+            },
+            { passive: true }
+          );
+
+          document.querySelector(".player").addEventListener(
+            "touchend",
+            (e) => {
+              const touchEndX = e.changedTouches[0].clientX;
+              const diff = touchStartX - touchEndX;
+
+              if (Math.abs(diff) > threshold) {
+                diff > 0 ? next() : prev();
+              }
+            },
+            { passive: true }
           );
         }
-      };
 
-      // 歌曲结束自动下一首
-      audio.onended = next;
+        // 播放指定曲目
+        async function playTrack(index) {
+          try {
+            // 暂停当前播放
+            if (isPlaying) {
+              audio.pause();
+            }
 
-      // 初始化
-      initPlaylist();
-      playTrack(0);
+            currentTrack = index;
+            const track = playlist[index];
+
+            // 更新基础信息
+            dom.title.textContent = track.title;
+            dom.artist.textContent = track.artist;
+            dom.cover.src = track.cover;
+
+            // 更新标题
+            document.title = `${track.title} - ${track.artist}`;
+
+            // 加载新音频
+            audio.src = track.src;
+            await audio.play();
+
+            // 自动更新播放状态
+            isPlaying = true;
+            updatePlayState();
+          } catch (err) {
+            handlePlayError(err);
+          }
+        }
+
+        // 切换播放状态
+        async function togglePlay() {
+          try {
+            if (isPlaying) {
+              await audio.pause();
+            } else {
+              await audio.play();
+            }
+            updatePlayState();
+          } catch (err) {
+            handlePlayError(err);
+          }
+        }
+
+        // 更新进度条
+        function updateProgress() {
+          if (isDragging) return;
+
+          const progress = (audio.currentTime / audio.duration) * 100;
+          dom.progress.style.width = `${progress}%`;
+          dom.currentTime.textContent = formatTime(audio.currentTime);
+        }
+
+        // 更新总时长
+        function updateDuration() {
+          dom.duration.textContent = formatTime(audio.duration);
+        }
+
+        // 错误处理
+        function handleAudioError() {
+          console.error("音频加载失败:", audio.error);
+          alert("当前歌曲无法播放，请稍后再试");
+          next();
+        }
+
+        function handlePlayError(err) {
+          console.error("播放失败:", err);
+          isPlaying = false;
+          dom.playBtn.textContent = "▶";
+        }
+
+        // 时间格式化
+        function formatTime(seconds) {
+          const min = Math.floor(seconds / 60);
+          const sec = Math.floor(seconds % 60);
+          return `${min.toString().padStart(2, "0")}:${sec
+            .toString()
+            .padStart(2, "0")}`;
+        }
+
+        // 进度条跳转
+        function seek(e) {
+          const rect = e.target.getBoundingClientRect();
+          const pos = (e.clientX - rect.left) / rect.width;
+          audio.currentTime = pos * audio.duration;
+        }
+
+        // 下一首
+        function next() {
+          currentTrack = (currentTrack + 1) % playlist.length;
+          playTrack(currentTrack);
+        }
+
+        // 上一首
+        function prev() {
+          currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+          playTrack(currentTrack);
+        }
+
+        // 暴露全局方法
+        window.togglePlay = togglePlay;
+        window.next = next;
+        window.prev = prev;
+        window.seek = seek;
+
+        // 初始化播放器
+        init();
+      })();
     </script>
   </body>
 </html>
