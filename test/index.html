@@ -1,1163 +1,1380 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>阿赛个人主页</title>
-    <style>
-      :root {
-        --palace-red: #9d2933; /* 故宫红 */
-        --indigo: #2a4365; /* 宫墙青 */
-        --sand-beige: #f3e9d2; /* 宫墙米色 */
-        --gold: #c5a049; /* 金色 */
-        --slate-gray: #4a5568; /* 石板灰 */
-        --light-gray: #f7fafc; /* 浅灰 */
-      }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", system-ui, sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>阿赛个人主页</title>
+  <style>
+    :root {
+      --palace-red: #9d2933;
+      /* 故宫红 */
+      --indigo: #2a4365;
+      /* 宫墙青 */
+      --sand-beige: #f3e9d2;
+      /* 宫墙米色 */
+      --gold: #c5a049;
+      /* 金色 */
+      --slate-gray: #4a5568;
+      /* 石板灰 */
+      --light-gray: #f7fafc;
+      /* 浅灰 */
+    }
 
-      body {
-        background: var(--light-gray);
-        line-height: 1.6;
-        color: var(--slate-gray);
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
 
-      /* 动态导航栏 */
-      nav {
-        position: fixed;
-        width: 100%;
-        padding: 1rem 5%;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-      }
+    body {
+      background: var(--light-gray);
+      line-height: 1.6;
+      color: var(--slate-gray);
+    }
 
-      .nav-brand {
-        font-weight: 700;
-        color: var(--palace-red);
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-      }
+    /* 动态导航栏 */
+    nav {
+      position: fixed;
+      width: 100%;
+      padding: 1rem 5%;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
 
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-      }
+    .nav-brand {
+      font-weight: 700;
+      color: var(--palace-red);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
 
-      .nav-links a {
-        color: var(--slate-gray);
-        text-decoration: none;
-        position: relative;
-        padding: 0.5rem 0;
-        transition: color 0.3s;
-      }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
 
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--indigo);
-        transition: width 0.3s;
-      }
+    .nav-links a {
+      color: var(--slate-gray);
+      text-decoration: none;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s;
+    }
 
-      .nav-links a:hover {
-        color: var(--palace-red);
-      }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--indigo);
+      transition: width 0.3s;
+    }
 
-      .nav-links a:hover::after {
-        width: 100%;
-      }
+    .nav-links a:hover {
+      color: var(--palace-red);
+    }
 
-      .menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--palace-red);
-        cursor: pointer;
-      }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
 
-      /* 英雄区域 */
-      .hero {
-        /* margin-top: 1.5rem; */
-        padding: 6rem 10% 4rem;
-        background: linear-gradient(
-          45deg,
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--palace-red);
+      cursor: pointer;
+    }
+
+    /* 英雄区域 */
+    .hero {
+      /* margin-top: 1.5rem; */
+      padding: 6rem 10% 4rem;
+      background: linear-gradient(45deg,
           var(--palace-red) 30%,
-          var(--indigo)
-        );
-        color: white;
+          var(--indigo));
+      color: white;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      max-width: 600px;
+      opacity: 0.9;
+    }
+
+    /* 内容区块通用样式 */
+    section {
+      padding: 5rem 10%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      color: var(--indigo);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    /* 卡片布局 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* 时间轴容器 */
+    .timeline-container {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+
+    /* 时间轴装饰线 */
+    .timeline-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: var(--sand-beige);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    /* 时间轴条目 */
+    .timeline-item {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 左右交替布局 */
+    .timeline-item:nth-child(odd) {
+      grid-column: 1;
+      padding-right: 2rem;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+      grid-column: 2;
+      padding-left: 2rem;
+    }
+
+    /* 内容容器 */
+    .timeline-content {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    /* 图标装饰 */
+    .timeline-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--palace-red);
+      color: var(--light-gray);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -25px;
+      right: -25px;
+      font-size: x-large;
+    }
+
+    .timeline-item:nth-child(even) .timeline-icon {
+      left: -25px;
+      right: auto;
+    }
+
+    /* 标题样式 */
+    .timeline-title {
+      color: var(--indigo);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* 文字内容 */
+    .timeline-text {
+      color: var(--slate-gray);
+      line-height: 1.6;
+    }
+
+    .timeline-tag {
+      display: block;
+      color: var(--gold);
+    }
+
+    /* 文本板块基础样式 */
+    .text-section {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* 左侧装饰 */
+    .paragraph-container {
+      position: relative;
+      border-left: 0.3rem dotted var(--gold);
+    }
+
+    /* 段落组样式 */
+    .paragraph-group {
+      padding: 0 2rem;
+      margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+
+    .paragraph-group.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .paragraph-title {
+      color: var(--indigo);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .paragraph-title::before {
+      content: "";
+      position: absolute;
+      left: -2.6rem;
+      top: 50%;
+      width: 1rem;
+      height: 1rem;
+      background: var(--palace-red);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .paragraph-text {
+      color: var(--slate-gray);
+      line-height: 1.8;
+      column-count: 2;
+      column-gap: 3rem;
+    }
+
+    .paragraph-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* 底部样式 */
+    .site-footer {
+      background: var(--sand-beige);
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 4rem 10% 2rem;
+      color: var(--slate-gray);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-section {
+      margin-bottom: 2rem;
+    }
+
+    .footer-title {
+      color: var(--indigo);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin: 0.8rem 0;
+    }
+
+    .footer-links a {
+      color: var(--slate-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--palace-red);
+    }
+
+    .social-link {
+      display: inline-block;
+      margin-right: 1rem;
+      padding: 0.5rem 0;
+      color: var(--indigo);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .social-link::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--palace-red);
+      transition: width 0.3s;
+    }
+
+    .social-link:hover::after {
+      width: 100%;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .icp-info {
+      font-size: 0.9rem;
+    }
+
+    .icp-info a {
+      color: var(--slate-gray);
+      text-decoration: none;
+    }
+
+    .icp-info a:hover {
+      color: var(--palace-red);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .nav-links {
+        gap: 1.5rem;
       }
 
       .hero-title {
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
-        line-height: 1.5;
-      }
-
-      .hero-subtitle {
-        font-size: 1.2rem;
-        max-width: 600px;
-        opacity: 0.9;
-      }
-
-      /* 内容区块通用样式 */
-      section {
-        padding: 5rem 10%;
-      }
-
-      .section-header {
-        text-align: center;
-        margin-bottom: 3rem;
-      }
-
-      .section-title {
-        font-size: 2.2rem;
-        color: var(--indigo);
-        position: relative;
-        display: inline-block;
-        padding-bottom: 1rem;
-      }
-
-      .section-title::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: var(--gold);
-      }
-
-      /* 卡片布局 */
-      .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-      }
-
-      .card {
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s;
-      }
-
-      .card:hover {
-        transform: translateY(-5px);
-      }
-      /* 时间轴容器 */
-      .timeline-container {
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        padding: 3rem 0;
-      }
-
-      /* 时间轴装饰线 */
-      .timeline-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 4px;
-        height: 100%;
-        background: var(--sand-beige);
-        transform: translateX(-50%);
-        z-index: 1;
-      }
-
-      /* 时间轴条目 */
-      .timeline-item {
-        position: relative;
-        z-index: 2;
-      }
-
-      /* 左右交替布局 */
-      .timeline-item:nth-child(odd) {
-        grid-column: 1;
-        padding-right: 2rem;
-        text-align: right;
-      }
-
-      .timeline-item:nth-child(even) {
-        grid-column: 2;
-        padding-left: 2rem;
-      }
-
-      /* 内容容器 */
-      .timeline-content {
-        background: white;
-        border-radius: 15px;
-        padding: 2rem;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        position: relative;
-        transition: transform 0.3s, box-shadow 0.3s;
-      }
-
-      .timeline-content:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-      }
-
-      /* 图标装饰 */
-      .timeline-icon {
-        width: 50px;
-        height: 50px;
-        background: var(--palace-red);
-        color: var(--light-gray);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: -25px;
-        right: -25px;
-        font-size: x-large;
-      }
-
-      .timeline-item:nth-child(even) .timeline-icon {
-        left: -25px;
-        right: auto;
-      }
-
-      /* 标题样式 */
-      .timeline-title {
-        color: var(--indigo);
-        font-size: 1.3rem;
-        margin-bottom: 1rem;
-      }
-
-      /* 文字内容 */
-      .timeline-text {
-        color: var(--slate-gray);
-        line-height: 1.6;
-      }
-      .timeline-tag {
-        display: block;
-        color: var(--gold);
-      }
-      /* 文本板块基础样式 */
-      .text-section {
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 4rem 2rem;
-      }
-
-      /* 左侧装饰 */
-      .paragraph-container {
-        position: relative;
-        border-left: 0.3rem dotted var(--gold);
-      }
-
-      /* 段落组样式 */
-      .paragraph-group {
-        padding: 0 2rem;
-        margin-bottom: 4rem;
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.6s ease-out;
-      }
-
-      .paragraph-group.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .paragraph-title {
-        color: var(--indigo);
-        font-size: 1.8rem;
-        margin-bottom: 1.5rem;
-        position: relative;
-      }
-
-      .paragraph-title::before {
-        content: "";
-        position: absolute;
-        left: -2.6rem;
-        top: 50%;
-        width: 1rem;
-        height: 1rem;
-        background: var(--palace-red);
-        border-radius: 50%;
-        transform: translateY(-50%);
+        font-size: 2.8rem;
       }
 
       .paragraph-text {
-        color: var(--slate-gray);
-        line-height: 1.8;
-        column-count: 2;
-        column-gap: 3rem;
+        column-count: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
       }
 
-      .paragraph-text p {
-        margin-bottom: 1.5rem;
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        flex-direction: column;
+        background: white;
+        padding: 2rem;
+        box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s;
+        border-radius: 15px 0 0 15px;
       }
 
-      /* 底部样式 */
-      .site-footer {
-        background: var(--sand-beige);
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
-        padding: 4rem 10% 2rem;
-        color: var(--slate-gray);
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hero {
+        padding: 4rem 5%;
+      }
+
+      .hero-title {
+        font-size: 2.2rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .timeline-container {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-container::before {
+        left: 0;
+      }
+
+      .timeline-item {
+        margin-left: 50px;
+        padding: 0 !important;
+        text-align: left !important;
+      }
+
+      .timeline-item:nth-child(even) {
+        grid-column: 1;
+      }
+
+      .timeline-icon {
+        left: -25px !important;
+        right: auto !important;
+      }
+
+      .paragraph-title {
+        font-size: 1.5rem;
       }
 
       .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 3rem;
-        margin-bottom: 3rem;
+        grid-template-columns: 1fr;
       }
 
       .footer-section {
-        margin-bottom: 2rem;
-      }
-
-      .footer-title {
-        color: var(--indigo);
-        font-size: 1.1rem;
-        margin-bottom: 1.5rem;
-        position: relative;
-        padding-bottom: 0.5rem;
+        text-align: center;
       }
 
       .footer-title::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 30px;
-        height: 2px;
-        background: var(--gold);
+        left: 50%;
+        transform: translateX(-50%);
       }
 
       .footer-links {
-        list-style: none;
+        padding: 0;
       }
+    }
 
-      .footer-links li {
-        margin: 0.8rem 0;
+    @media (max-width: 480px) {
+      .card-grid {
+        grid-template-columns: 1fr;
       }
+    }
 
-      .footer-links a {
-        color: var(--slate-gray);
-        text-decoration: none;
-        transition: color 0.3s;
-      }
+    /* 特色区块 */
+    .special-block {
+      background: var(--sand-beige);
+      border-radius: 16px;
+      padding: 3rem;
+      margin: 2rem 0;
+    }
 
-      .footer-links a:hover {
-        color: var(--palace-red);
-      }
+    /* 用户中心 */
+    .user-panel {
+      background: var(--indigo);
+      color: white;
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+    }
 
-      .social-link {
-        display: inline-block;
-        margin-right: 1rem;
-        padding: 0.5rem 0;
-        color: var(--indigo);
-        text-decoration: none;
-        position: relative;
-      }
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      background: var(--gold);
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
 
-      .social-link::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background: var(--palace-red);
-        transition: width 0.3s;
-      }
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
 
-      .social-link:hover::after {
-        width: 100%;
-      }
+<body>
+  <nav>
+    <div class="nav-brand">阿赛个人主页</div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <div class="nav-links">
+      <a href="#aboutasai">关于阿赛</a>
+      <a href="#fieldasai">技术领域</a>
+      <a href="#groupasai">成长脚印</a>
+      <a href="#openasai">开源项目</a>
+      <a href="#linkasai">友情快链</a>
+      <a href="#userasai">用户中心</a>
+    </div>
+  </nav>
 
-      .footer-bottom {
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        padding-top: 2rem;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
+  <main>
+    <!-- 英雄区域 -->
+    <section class="hero">
+      <h1 class="hero-title">开发架构与AI探索</h1>
+      <p class="hero-subtitle">
+        HTML+CSS+JS是Web开发的基础，架构设计与技术洞见是Web出彩的关键，在趋于大同的技术路线上，每个人的选择都是自由的，只要深钻其一，借助AI便可满堂彩！
+      </p>
+    </section>
 
-      .copyright {
-        font-size: 0.9rem;
-        opacity: 0.8;
-      }
-
-      .icp-info {
-        font-size: 0.9rem;
-      }
-
-      .icp-info a {
-        color: var(--slate-gray);
-        text-decoration: none;
-      }
-
-      .icp-info a:hover {
-        color: var(--palace-red);
-      }
-
-      /* 响应式设计 */
-      @media (max-width: 1024px) {
-        .nav-links {
-          gap: 1.5rem;
-        }
-
-        .hero-title {
-          font-size: 2.8rem;
-        }
-
-        .paragraph-text {
-          column-count: 1;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .menu-toggle {
-          display: block;
-        }
-
-        .nav-links {
-          position: fixed;
-          top: 70px;
-          right: -100%;
-          flex-direction: column;
-          background: white;
-          padding: 2rem;
-          box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.1);
-          transition: right 0.3s;
-          border-radius: 15px 0 0 15px;
-        }
-
-        .nav-links.active {
-          right: 0;
-        }
-        .hero {
-          padding: 4rem 5%;
-        }
-
-        .hero-title {
-          font-size: 2.2rem;
-          margin-top: 1.5rem;
-          margin-bottom: 1rem;
-        }
-
-        .section-title {
-          font-size: 1.8rem;
-        }
-
-        .timeline-container {
-          grid-template-columns: 1fr;
-        }
-
-        .timeline-container::before {
-          left: 0;
-        }
-
-        .timeline-item {
-          margin-left: 50px;
-          padding: 0 !important;
-          text-align: left !important;
-        }
-
-        .timeline-item:nth-child(even) {
-          grid-column: 1;
-        }
-
-        .timeline-icon {
-          left: -25px !important;
-          right: auto !important;
-        }
-
-        .paragraph-title {
-          font-size: 1.5rem;
-        }
-
-        .footer-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .footer-section {
-          text-align: center;
-        }
-
-        .footer-title::after {
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        .footer-links {
-          padding: 0;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .card-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      /* 特色区块 */
-      .special-block {
-        background: var(--sand-beige);
-        border-radius: 16px;
-        padding: 3rem;
-        margin: 2rem 0;
-      }
-
-      /* 用户中心 */
-      .user-panel {
-        background: var(--indigo);
-        color: white;
-        border-radius: 16px;
-        padding: 3rem;
-        text-align: center;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 0.8rem 2rem;
-        border-radius: 8px;
-        background: var(--gold);
-        color: white;
-        text-decoration: none;
-        transition: opacity 0.3s;
-      }
-
-      .btn:hover {
-        opacity: 0.9;
-      }
-    </style>
-  </head>
-  <body>
-    <nav>
-      <div class="nav-brand">阿赛个人主页</div>
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-      <div class="nav-links">
-        <a href="#aboutasai">关于阿赛</a>
-        <a href="#fieldasai">技术领域</a>
-        <a href="#groupasai">成长脚印</a>
-        <a href="#openasai">开源项目</a>
-        <a href="#linkasai">友情快链</a>
-        <a href="#userasai">用户中心</a>
+    <!-- 关于阿赛 -->
+    <section id="aboutasai">
+      <div class="section-header">
+        <h2 class="section-title">关于阿赛</h2>
       </div>
-    </nav>
+      <div class="card-grid">
+        <div class="card">
+          <h3>全栈经历</h3>
+          <p>
+            2002年开始网站开发，完成学院精品课程网站开发建设及教学动画课件的制作；2005年毕业后从事教师职业，同时完成学校官网建设并负责机房管理；2007年专职互联网工作，带团队并全栈开发，升级与维护二十多个大型网站项目，开源项目阿赛企业网站系统、阿赛门户网站系统、阿赛树型论坛系统、阿赛聊天室系统等各大源码下载网均有收录。全面了解网站平台各项开发事宜，提升解决各类疑难问题能力。
+          </p>
+        </div>
+        <div class="card">
+          <h3>前端探究</h3>
+          <p>
+            2016年聚焦前端技术研发，精通前端HTML5、CSS3、JS、TS、Vue、Angular、Node.js、Vite、Webpack、Electron桌面软件开发、uniapp手机全端开发等。一线主力开发角色，完成十多个前端项目的架构与开发工作，应用新技术、解决疑难点、积累扎实的前端工作经验，坚持"技术驱动价值"理念，擅长将技术创新与商业需求结合，致力于构建高效可维护的现代化Web开发框架体系。
+          </p>
+        </div>
+      </div>
+    </section>
 
-    <main>
-      <!-- 英雄区域 -->
-      <section class="hero">
-        <h1 class="hero-title">开发架构与AI探索</h1>
-        <p class="hero-subtitle">
-          HTML+CSS+JS是Web开发的基础，架构设计与技术洞见是Web出彩的关键，在趋于大同的技术路线上，每个人的选择都是自由的，只要深钻其一，借助AI便可满堂彩！
-        </p>
-      </section>
-
-      <!-- 关于阿赛 -->
-      <section id="aboutasai">
+    <!-- 技术领域 -->
+    <section id="fieldasai" class="special-block">
+      <div class="text-section">
+        <!-- 主标题 -->
         <div class="section-header">
-          <h2 class="section-title">关于阿赛</h2>
+          <h2 class="section-title">技术领域</h2>
         </div>
-        <div class="card-grid">
-          <div class="card">
-            <h3>全栈经历</h3>
-            <p>
-              2002年开始网站开发，完成学院精品课程网站开发建设及教学动画课件的制作；2005年毕业后从事教师职业，同时完成学校官网建设并负责机房管理；2007年专职互联网工作，带团队并全栈开发，升级与维护二十多个大型网站项目，开源项目阿赛企业网站系统、阿赛门户网站系统、阿赛树型论坛系统、阿赛聊天室系统等各大源码下载网均有收录。全面了解网站平台各项开发事宜，提升解决各类疑难问题能力。
-            </p>
+        <!-- 文本容器 -->
+        <div class="paragraph-container">
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">全栈开发与系统架构</h3>
+            <div class="paragraph-text">
+              <p>
+                主导从数据库设计到前端交互的全流程开发，构建高可用性系统架构，实现前后端技术栈无缝衔接，支撑百万级用户量业务系统稳定运行‌
+              </p>
+              <p>
+                ‌核心技术‌：Node.js、MySQL/MSSQL、Vue.js、Angular、Webpack
+              </p>
+            </div>
           </div>
-          <div class="card">
-            <h3>前端探究</h3>
-            <p>
-              2016年聚焦前端技术研发，精通前端HTML5、CSS3、JS、TS、Vue、Angular、Node.js、Vite、Webpack、Electron桌面软件开发、uniapp手机全端开发等。一线主力开发角色，完成十多个前端项目的架构与开发工作，应用新技术、解决疑难点、积累扎实的前端工作经验，坚持"技术驱动价值"理念，擅长将技术创新与商业需求结合，致力于构建高效可维护的现代化Web开发框架体系。
-            </p>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">跨平台桌面应用开发</h3>
+            <div class="paragraph-text">
+              <p>
+                开发高性能跨平台桌面工具，集成自动化脚本与本地API调用能力，提升企业级用户操作效率30%以上，适配Windows/macOS双端需求‌
+              </p>
+              <p>
+                技术实现‌：Electron、Vue3、TypeScript、IPC通信
+              </p>
+            </div>
           </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">‌低代码平台研发</h3>
+            <div class="paragraph-text">
+              <p>
+                构建企业级低代码开发平台，通过模块化组件库与动态表单引擎，将常规业务系统开发周期缩短60%，支撑10+业务线快速迭代‌
+              </p>
+              <p>
+                技术沉淀‌：元数据驱动设计、可视化编排引擎、Axios接口标准化
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">多终端适配开发</h3>
+            <div class="paragraph-text">
+              <p>
+                实现「一次开发多端发布」解决方案，覆盖iOS/Android/Web/H5全终端场景，通过动态主题引擎保障多品牌视觉风格统一‌
+              </p>
+              <p>
+                技术方案‌：Uni-app跨端框架、Flex布局、响应式设计
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">‌前端工程化建设</h3>
+            <div class="paragraph-text">
+              <p>
+                搭建企业级前端脚手架体系，集成代码规范检测与性能监控工具，团队开发效率提升40%，线上错误率下降65%‌
+              </p>
+              <p>
+                核心能力‌：Webpack深度优化、CI/CD流水线、自动化测试
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">数据可视化与BI工具</h3>
+            <div class="paragraph-text">
+              <p>
+                开发智能数据看板系统，支持TB级数据实时分析可视化，通过WebGL加速技术实现毫秒级图表渲染，赋能业务决策效率‌
+              </p>
+              <p>
+                技术栈‌：ECharts、Canvas渲染、大数据量优化
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">‌微前端架构实践</h3>
+            <div class="paragraph-text">
+              <p>
+                重构遗留单体系统为微前端架构，实现多团队并行开发与独立部署，系统维护成本降低50%，版本发布频率提升3倍‌
+              </p>
+              <p>
+                技术突破‌：qiankun微应用沙箱、状态隔离、依赖共享
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">移动端混合开发</h3>
+            <div class="paragraph-text">
+              <p>
+                构建Hybrid移动应用框架，集成蓝牙打印、OCR识别等硬件功能，核心页面加载速度优化至1秒内，用户留存率提升25%‌
+              </p>
+              <p>
+                技术整合‌：Cordova插件开发、原生能力调用、性能调优
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">‌前端安全防护体系</h3>
+            <div class="paragraph-text">
+              <p>
+                建立前端安全防护规范，通过自动化渗透测试工具发现并修复200+高危漏洞，保障金融级业务系统零安全事故运行‌
+              </p>
+              <p>
+                防护策略‌：XSS/CSRF防御、CSP策略配置、敏感数据加密
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">‌团队效能提升</h3>
+            <div class="paragraph-text">
+              <p>
+                建立标准化研发流程与人才梯队培养机制，团队年度需求交付量增长120%，新人上手周期从3个月压缩至3周‌
+              </p>
+              <p>
+                ‌管理成果‌：技术评审体系、知识库建设、自动化文档生成
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">音视频处理技术</h3>
+            <div class="paragraph-text">
+              <p>
+                开发在线会议系统，支持1080P高清视频传输与智能降噪功能，延迟控制在200ms以内，支撑日均10万+分钟通话量‌
+              </p>
+              <p>
+                技术实现‌：WebRTC实时通信、FFmpeg转码、流媒体传输
+              </p>
+            </div>
+          </div>
+
+          <!-- 段落组 -->
+          <div class="paragraph-group">
+            <h3 class="paragraph-title">智能运维工具链</h3>
+            <div class="paragraph-text">
+              <p>
+                构建DevOps工具平台，实现服务器资源利用率智能调度与故障自愈，运维人力投入减少70%，系统可用性达99.99%‌
+              </p>
+              <p>
+                ‌技术整合‌：Shell脚本自动化、日志监控系统、异常预警
+              </p>
+            </div>
+          </div>
+
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- 技术领域 -->
-      <section id="fieldasai" class="special-block">
-        <div class="text-section">
-          <!-- 主标题 -->
-          <div class="section-header">
-            <h2 class="section-title">技术领域</h2>
-          </div>
-          <!-- 文本容器 -->
-          <div class="paragraph-container">
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">全栈开发与系统架构</h3>
-              <div class="paragraph-text">
-                <p>
-                  主导从数据库设计到前端交互的全流程开发，构建高可用性系统架构，实现前后端技术栈无缝衔接，支撑百万级用户量业务系统稳定运行‌
-                </p>
-                <p>
-                  ‌核心技术‌：Node.js、MySQL/MSSQL、Vue.js、Angular、Webpack
-                </p>
-              </div>
+    <!-- 成长脚印 -->
+    <section id="groupasai">
+      <div class="section-header">
+        <h2 class="section-title">成长脚印</h2>
+      </div>
+      <div class="timeline-container">
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
             </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">跨平台桌面应用开发</h3>
-              <div class="paragraph-text">
-                <p>
-                  开发高性能跨平台桌面工具，集成自动化脚本与本地API调用能力，提升企业级用户操作效率30%以上，适配Windows/macOS双端需求‌
-                </p>
-                <p>
-                  技术实现‌：Electron、Vue3、TypeScript、IPC通信
-                </p>
+            <div class="timeline-body">
+              <h3 class="timeline-title">
+                2019-2022 - 桌面工具及平台前端开发
+              </h3>
+              <p class="timeline-text">
+                桌面工具：基于electron/vue/nodejs/前端技术开发Win/Mac全端全球适配的IDE，通过元数据驱动视图原理开发所见即所得主题开发工具；低代码平台：运用vue/es6/axios/webpack等技术，采用编辑预览通过模型数据双向绑定全新架构，提升开发体验，实现制作图片、H5等功能；推广系统：支撑海内外广告投放的Angular项目开发；广告平台：基于Vue全新的模块化设计架构，实现低耦合开发，自研设计本地调试开发mock架构，让开发更高效、更灵活。技术架构：前端项目技术选型、架构设计、开发启动与升级维护等；项目管理：负责前端团队的开发总调；新员工培训导师：每月一次的新员工入职技术培训；前端技能鉴定组长：每年两次的前端技能鉴定组组长、命题人；另有前端面试、代码review、安全检视等。
+              <div class="timeline-tag">
+                / js / css / html / nodejs / vue / electron / sass / less /
+                svg / canvas / i18n / webpack / es6 / elementUI / axios /
+                angular / ts / 讲师 / 培训 / 导师 / 架构师 / 项目管理 / 命题 /
+                面试 /
               </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">‌低代码平台研发</h3>
-              <div class="paragraph-text">
-                <p>
-                  构建企业级低代码开发平台，通过模块化组件库与动态表单引擎，将常规业务系统开发周期缩短60%，支撑10+业务线快速迭代‌
-                </p>
-                <p>
-                  技术沉淀‌：元数据驱动设计、可视化编排引擎、Axios接口标准化
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">多终端适配开发</h3>
-              <div class="paragraph-text">
-                <p>
-                  实现「一次开发多端发布」解决方案，覆盖iOS/Android/Web/H5全终端场景，通过动态主题引擎保障多品牌视觉风格统一‌
-                </p>
-                <p>
-                  技术方案‌：Uni-app跨端框架、Flex布局、响应式设计
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">‌前端工程化建设</h3>
-              <div class="paragraph-text">
-                <p>
-                  搭建企业级前端脚手架体系，集成代码规范检测与性能监控工具，团队开发效率提升40%，线上错误率下降65%‌
-                </p>
-                <p>
-                  核心能力‌：Webpack深度优化、CI/CD流水线、自动化测试
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">数据可视化与BI工具</h3>
-              <div class="paragraph-text">
-                <p>
-                  开发智能数据看板系统，支持TB级数据实时分析可视化，通过WebGL加速技术实现毫秒级图表渲染，赋能业务决策效率‌
-                </p>
-                <p>
-                  技术栈‌：ECharts、Canvas渲染、大数据量优化
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">‌微前端架构实践</h3>
-              <div class="paragraph-text">
-                <p>
-                  重构遗留单体系统为微前端架构，实现多团队并行开发与独立部署，系统维护成本降低50%，版本发布频率提升3倍‌
-                </p>
-                <p>
-                  技术突破‌：qiankun微应用沙箱、状态隔离、依赖共享
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">移动端混合开发</h3>
-              <div class="paragraph-text">
-                <p>
-                  构建Hybrid移动应用框架，集成蓝牙打印、OCR识别等硬件功能，核心页面加载速度优化至1秒内，用户留存率提升25%‌
-                </p>
-                <p>
-                  技术整合‌：Cordova插件开发、原生能力调用、性能调优
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">‌前端安全防护体系</h3>
-              <div class="paragraph-text">
-                <p>
-                  建立前端安全防护规范，通过自动化渗透测试工具发现并修复200+高危漏洞，保障金融级业务系统零安全事故运行‌
-                </p>
-                <p>
-                  防护策略‌：XSS/CSRF防御、CSP策略配置、敏感数据加密
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">‌团队效能提升</h3>
-              <div class="paragraph-text">
-                <p>
-                  建立标准化研发流程与人才梯队培养机制，团队年度需求交付量增长120%，新人上手周期从3个月压缩至3周‌
-                </p>
-                <p>
-                  ‌管理成果‌：技术评审体系、知识库建设、自动化文档生成
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">音视频处理技术</h3>
-              <div class="paragraph-text">
-                <p>
-                  开发在线会议系统，支持1080P高清视频传输与智能降噪功能，延迟控制在200ms以内，支撑日均10万+分钟通话量‌
-                </p>
-                <p>
-                  技术实现‌：WebRTC实时通信、FFmpeg转码、流媒体传输
-                </p>
-              </div>
-            </div>
-
-            <!-- 段落组 -->
-            <div class="paragraph-group">
-              <h3 class="paragraph-title">智能运维工具链</h3>
-              <div class="paragraph-text">
-                <p>
-                  构建DevOps工具平台，实现服务器资源利用率智能调度与故障自愈，运维人力投入减少70%，系统可用性达99.99%‌
-                </p>
-                <p>
-                  ‌技术整合‌：Shell脚本自动化、日志监控系统、异常预警
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- 成长脚印 -->
-      <section id="groupasai">
-        <div class="section-header">
-          <h2 class="section-title">成长脚印</h2>
-        </div>
-        <div class="timeline-container">
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">
-                  2019-2022 - 桌面工具及平台前端开发
-                </h3>
-                <p class="timeline-text">
-                  桌面工具：基于electron/vue/nodejs/前端技术开发Win/Mac全端全球适配的IDE，通过元数据驱动视图原理开发所见即所得主题开发工具；低代码平台：运用vue/es6/axios/webpack等技术，采用编辑预览通过模型数据双向绑定全新架构，提升开发体验，实现制作图片、H5等功能；推广系统：支撑海内外广告投放的Angular项目开发；广告平台：基于Vue全新的模块化设计架构，实现低耦合开发，自研设计本地调试开发mock架构，让开发更高效、更灵活。技术架构：前端项目技术选型、架构设计、开发启动与升级维护等；项目管理：负责前端团队的开发总调；新员工培训导师：每月一次的新员工入职技术培训；前端技能鉴定组长：每年两次的前端技能鉴定组组长、命题人；另有前端面试、代码review、安全检视等。
-                  <div class="timeline-tag">
-                    / js / css / html / nodejs / vue / electron / sass / less /
-                  svg / canvas / i18n / webpack / es6 / elementUI / axios /
-                  angular / ts / 讲师 / 培训 / 导师 / 架构师 / 项目管理 / 命题 /
-                  面试 /
-                </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">
-                  2018-2019 - 自由工作接单开发各种类型网站及手机软件开发
-                </h3>
-                <p class="timeline-text">
-                  生物医药科技行业网站：参与需求分析、网站架构、前端页面设计、UX交互设计、设计开发、上线运营与维护等创业全线工作；二手车检测服务平台：市场调研、需求分析、网站架构，并独立完成网站设计与开发；专用车电子商务平台：按BOSS口述需求独立完成平台的架构、数据库、WEB前端设计、程序开发、上线部署等全部开发工作；车商记账统计服务：使用VUE框架、uni-app进行APP前端开发，同时制作官方网站及相关宣传页等。自由开发者：与朋友合伙接单各种平台、网站、软件等需求开发。
-                  <div class="timeline-tag">
-                    / js / css / html / bootstrap / jq / php / mysql / asp / mssql
-                  / vue / uniapp / es6 / nodejs / less / canvas / 团队协作/
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">2009-2018 - 生产设备电子商务平台</h3>
-                <p class="timeline-text">
-                  中国设备联盟(技术入股)：带领团队完成旗下十二个行业网站的前端交互改版升级、底层技术重构及平台维护与运营工作，提升整个平台的竞争力。技术总监：定期培训，平台计划性重构与升级开发，解决数据查询优化、服务器安全等问题，日常化运维与新需求计划制定。
-                  <div class="timeline-tag">/ js / css / html / asp / mssql / vue / bootstrap / jq / 管理
-                  / 运维 / 服务器 / 安全 / 数据库/
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">2008-2009 - 汽车交易服务平台</h3>
-                <p class="timeline-text">
-                  南京二手车网、新车网、租车网：负责旧站改版，并完成新车网、租车网及其他特需项目的前端设计、后端数据库与程序开发，提升公司已有产品运营能力，新增关联平台拓宽业务范围。技术主管：旧版二手车网站的重构与优化，新车网、租车网的设计开发到上线。
-                  <div class="timeline-tag">
-                  / js / css / html / asp / mssql / 技术架构 / 网站重构 /
-                  技术管理/
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">2007-2008 - 电子元器件资讯网</h3>
-                <p class="timeline-text">
-                  SMD资讯网，辞去教师工作来到南京后的第一个网站项目，含资讯、论坛、商品展示等，提升用户体验。网站开发：公司网站设计与开发，SMD行业资讯网站的前后端开发。
-                  <div class="timeline-tag">
-                  / js / css / html / asp / mssql / 网站开发 / 网页设计/
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">2005-2007 - 中学网站CMS系统</h3>
-                <p class="timeline-text">
-                  完成在职学校官网、在职学科社区等一系列学校网络服务系统的开发。任职生物教师、物理教师、计算机管理员，并负责学校网络建设及机房管理。
-                  <div class="timeline-tag">
-                  / js / css / html / asp / access / mssql / 网络管理 / 电脑硬件
-                  / 多媒体教学 / 校园网开发 / 学科网开发/
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">2002-2005 - 精品课程网站</h3>
-                <p class="timeline-text">
-                  植物生理学网络课程建设，根据大学导师需求，从事教学素材收集、flash动画制作，以及网络课程、社区论坛、在线考试等综合功能网站开发。大学时代：兴趣爱好网站建设，特别自学计算机相关知识，毕业论文是精品课程建设，并获得院系第一名，学校优秀毕业论文。
-                  <div class="timeline-tag">
-                  / js / css / html / ppt / flash / asp / access / 课件制作 /
-                  网站架构 / 网站运维 / 网站开发 / 考试系统/
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 时间轴条目 -->
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <div class="timeline-icon">
-                ♚
-              </div>
-              <div class="timeline-body">
-                <h3 class="timeline-title">2001-至今 - 自研作品</h3>
-                <p class="timeline-text">
-                  自学提升作品：阿赛企业、门户、学校网站系统；资讯app、小程序；uniapp+php/mysql全端开发；vue+webpack开发的内容管理CMS；啾噗app等等，拥抱新技术、提升开发能力。业余时间：不断学习最新技术，开发分享开源项目，钻研改善公共模块，涉足网络服务方方面面，扩增知识面。
-                  <div class="timeline-tag">
-                  / js / css / html / angular / ts / nodejs / sass / i18n /
-                  webpack / vue / es6 / AS / VS / VScode / DW / PS / VPN / GIT /
-                  SVN / 前端 / 后端 / 项目架构 / 项目管理 / 项目运维 / 服务器 /
-                  数据库 / 域名 / 备案 / SEO/
-                  </div>
-                </p>
-              </div>
+              </p>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- 开源项目 -->
-      <section id="openasai" class="special-block">
-        <div class="text-section">
-          <div class="section-header">
-            <h2 class="section-title">开源项目</h2>
-          </div>
-          <div class="card-grid">
-            <div class="card">
-              <h3>阿赛企业网站系统</h3>
-              <p>阿赛企业网站系统从2005年着手开发，自发布第一版以来，深受网友喜爱，是迄今企业建站最受欢迎的ASP开源系统，如今已经发布到第十九版，功能更完善、运行更稳定、更安全。</p>
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
             </div>
-            <div class="card">
-              <h3>阿赛门户网站系统</h3>
-              <p>阿赛门户网站系统为开源系统，对外分享期间得到大批网友认可，全站源码均原创架构设计，各套系统中可以自由组合搭配，提供完全自定义方式建站，前后台完全分离，功能丰富强大。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛无数据库简易留言本</h3>
-              <p>无数据库采用FSO直接储存留言，第一次将数据库存储媒介罢用，采用全新的缓存、txt及其他文本类文件储存信息。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛树形论坛</h3>
-              <p>生成HTML的个性树形论坛，提供大树（无限分支看帖、回帖模式）、小树（两层看帖、发帖模式）两种，多应用彩票、快捷信息交换平台，共计发布了五个版本，每个版本各不相同，满足不同客户需求。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛无数据库简易留言本</h3>
-              <p>无数据库采用FSO直接储存留言，第一次将数据库存储媒介罢用，采用全新的缓存、txt及其他文本类文件储存信息。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛文章系统</h3>
-              <p>安全实用的生成HTML文章系统，全站HTML生成，全静态访问，适用于各类独立自媒体网站系统。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛问吧</h3>
-              <p>功能媲敌百度问吧，以临摹为主，代码为原创架构，更简洁的流程与程序设计完成强大的百度问吧功能。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛订单系统</h3>
-              <p>实用的订单系统，开发出独立的订单处理接口，可以对接入不同的建站系统之中，也可以独立用来礼物发放、商品出售活动。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛在线HTML编辑器</h3>
-              <p>漂亮、简单实用的在线HTML编辑器，纯JS实现，运行速度极快，兼容所有老旧或新款浏览器。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛广告点击计数器</h3>
-              <p>假设您要统计从自己网站点击链接到别人网站的次数，无需添加统计代码，即可即时统计点击次数。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛单文件表单提交处理系统</h3>
-              <p>实用的表单提交系统，用来采集用户信息，或投票结果、用户意向调查等。</p>
-            </div>
-            <div class="card">
-              <h3>芳涯论坛</h3>
-              <p>原创的UBB代码，大型互动交友论坛</p>
-            </div>
-            <div class="card">
-              <h3>大型互动社区</h3>
-              <p>由“乔客”改版的大型门户型网站系统，为企业第三方定制版本</p>
-            </div>
-            <div class="card">
-              <h3>阿赛网址导航系统</h3>
-              <p>有别于现行所有的网址导航系统，采用动（ASP版）静（HTML版）结合，只需修改一个数字，即可完成动静网站的转换，相当轻松、易用。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛文件上传系统</h3>
-              <p>文件上传的一套系统 。主要用于网站的文件上传</p>
-            </div>
-            <div class="card">
-              <h3>阿赛芳涯学校网站系统</h3>
-              <p>阿赛芳涯学校网站系统为动易3.6改版而来，修改其中每一个程序，完善后台功能，并加入了采集功能，高级编辑器等时下流行元素，同时重新构架前台和用户投稿等功能，并着力加强管理员后台功能，使大家使用更方便，更快捷，学校网站栏目经过精心策划，只需稍作改动，替换站内图片即可实现一个新的学校网站的建立。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛左右分栏论坛系统</h3>
-              <p>本系统采用‌左右分栏交互设计‌，优化超宽屏操作效率，支持主题列表与内容区独立展示‌。提供‌多样化内容展示‌（置顶/精华/热门贴）与个性化标题色彩配置‌，集成‌HTML可视化编辑器‌及前台管理功能，实现帖子实时编辑与权限控制‌。支持‌短消息互动‌与‌自定义头像‌增强用户粘性‌，搭配‌多风格皮肤切换‌提升视觉体验‌。后台支持公告发布、图文推荐等管理功能，并内置安全防护机制保障数据可靠性‌。</p>
-            </div>
-            <div class="card">
-              <h3>阿赛聊天系统</h3>
-              <p>本聊天系统支持点击用户名快速选定对话对象‌，通过Enter键实现连续消息发送‌，集成表情库增强交互‌。导航下拉菜单支持全局界面跳转‌，历史记录查询与登录验证机制保障数据安全‌。提供私聊/公开双模式‌，发言内容以颜色区分来源（绿色：自己，黄色：私信，灰色：他人对话，白色：全体消息）‌。支持SQL/Access双数据库存储‌，可与企业门户无缝整合‌，内置SQL注入过滤与批量消息管理功能，结合Ajax技术实现无刷新流畅体验‌</p>
-            </div>
-            <div class="card">
-              <h3>阿赛网址导航系统</h3>
-              <p>阿赛独立架构，有别于现行所有的网址导航系统，采用动（ASP版）静（HTML版）结合，只需修改一个数字，即可完成动静网站的转换，相当轻松、易用。</p>
+            <div class="timeline-body">
+              <h3 class="timeline-title">
+                2018-2019 - 自由工作接单开发各种类型网站及手机软件开发
+              </h3>
+              <p class="timeline-text">
+                生物医药科技行业网站：参与需求分析、网站架构、前端页面设计、UX交互设计、设计开发、上线运营与维护等创业全线工作；二手车检测服务平台：市场调研、需求分析、网站架构，并独立完成网站设计与开发；专用车电子商务平台：按BOSS口述需求独立完成平台的架构、数据库、WEB前端设计、程序开发、上线部署等全部开发工作；车商记账统计服务：使用VUE框架、uni-app进行APP前端开发，同时制作官方网站及相关宣传页等。自由开发者：与朋友合伙接单各种平台、网站、软件等需求开发。
+              <div class="timeline-tag">
+                / js / css / html / bootstrap / jq / php / mysql / asp / mssql
+                / vue / uniapp / es6 / nodejs / less / canvas / 团队协作/
+              </div>
+              </p>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- 友情快链 -->
-      <section id="linkasai">
-        <div class="section-header">
-          <h2 class="section-title">友情快链</h2>
-        </div>
-        <div class="card-grid">
-          <div class="card">
-            <h3>酷嘟嘟</h3>
-            <p>
-              全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
-            </p>
-          </div>
-          <div class="card">
-            <h3>阿赛物联网系统</h3>
-            <p>
-              全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
-            </p>
-          </div>
-          <div class="card">
-            <h3>阿赛原创音乐</h3>
-            <p>
-              全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
-            </p>
-          </div>
-          <div class="card">
-            <h3>长篇小说《墓族》</h3>
-            <p>
-              出版技术散文集《代码与诗》，业余从事数字艺术创作，探索AI生成艺术的创新应用...
-            </p>
-          </div>
-          <div class="card"><h3>华为PPS广告投放系统</h3><p>(外协)基于angular的投放端和基于vue的管理端，采用typescript开发，涉及大量数据处理逻辑与数据导入导出，以及数据图表渲染等前端能力。</p></div><div class="card"><h3>华为创意广告设计平台</h3><p>(外协)熟练运用vue/es6/axios/webpack等技术部署开发与发布环境，制作在线版图片、H5页面编辑器。</p></div><div class="card"><h3>华为主题开发工具</h3><p>(外协)基于electron/vue/nodejs架设开发环境，涉及H5/CSS3/JS/ES6/VUE/NODEJS/ELECTRON/WEBPACK/SVG/CANVAS/ANIMATION/SASS/LESS等技术开发win/Mac全端全球适配的IDE。</p></div><div class="card"><h3>车商记</h3><p>二手车车商记账本，基于uni-app安卓、苹果APP开发。</p></div><div class="card"><h3>机电牛</h3><p>平台的架构、数据库、WEB前端设计、程序开发、上线等，独立完成全部工作。机电牛jidianniu.com是国内首家专业专用车服务平台，含车型数据中心、配套商城、租赁服务、专用车论坛、国家专用车公告查询等项目。</p></div><div class="card"><h3>生易网</h3><p>生物医药科技B2B平台，需求分析、网站架构、设计开发、上线运营与维护等全部工作</p></div><div class="card"><h3>中国设备联盟</h3><p>生产设备B2B平台，带队完成旗下十二个网站的改版、重新架构、平台维护与运营工作。中国最大、最专业、信息量最大的设备B2B网站</p></div><div class="card"><h3>中国船舶设备网</h3><p>设备联盟旗下专业的船舶设备网</p></div><div class="card"><h3>中国石油物资网</h3><p>设备联盟旗下专业的石油物资设备网站</p></div><div class="card"><h3>化工设备网</h3><p>设备联盟旗下专业的化工设备网</p></div><div class="card"><h3>中国物流设备网</h3><p>设备联盟旗下专业的物流设备配套网站</p></div><div class="card"><h3>中国电力设备网</h3><p>设备联盟旗下专业的电力设备网</p></div><div class="card"><h3>制药设备网</h3><p>设备联盟旗下专业的制药设备网</p></div><div class="card"><h3>食品设备网</h3><p>设备联盟旗下专业的食品设备配套</p></div><div class="card"><h3>中国冶金设备网</h3><p>设备联盟旗下专业的冶金制造设备网</p></div><div class="card"><h3>中国水处理设备网</h3><p>设备联盟旗下专业的水处理设备网站</p></div><div class="card"><h3>环保设备网</h3><p>设备联盟旗下专业的环保设备网</p></div><div class="card"><h3>中国纺织设备网</h3><p>设备联盟旗下专业的纺织设备网站</p></div><div class="card"><h3>中国矿产设备网</h3><p>设备联盟旗下专业的矿产设备网站</p></div><div class="card"><h3>设备通会员网站</h3><p>制作各网站的会员网站系统，超阿里巴巴的自主建站系统。</p></div><div class="card"><h3>南京搜浪互联</h3><p>专业互联网技术公司</p></div><div class="card"><h3>车疯子、铁锤车检</h3><p>市场调研、需求分析、网站架构，并独立完成网站设计与开发</p></div><div class="card"><h3>新南京</h3><p>通过市场分析定位门户网站方向，完成网站WEB前端与后台程序设计。新南京的任务是聚合本地1990年至今的所有公开、公共信息，以便大家查阅，我们坚持对每条信息进行严格审核确认，并对外发布，部分信息转载自本地权威网站，如政府、机构、协会、学校等，本着不侵权、不外泄私密信息，不公开有违国家法律的任何信息。</p></div><div class="card"><h3>绮思爱</h3><p>通过调研、出需求说明最终确认项目开发架构方案，独立制作完成所有模块</p></div><div class="card"><h3>搜车网——新车站</h3><p>旗下的新车网</p></div><div class="card"><h3>搜车网——二手车站</h3><p>当时南京地区知名二手车网站</p></div><div class="card"><h3>新车团购站</h3><p>南京本地最专业的新车团购网包含资讯、新车报价、团购等</p></div><div class="card"><h3>租车网</h3><p>中国第一家私人租车网站</p></div><div class="card"><h3>搜车买卖通</h3><p>搜车网二手车车商的网店</p></div><div class="card"><h3>新车4S网店</h3><p>搜车网新车4S店的网店</p></div><div class="card"><h3>新车报价网</h3><p>搜车网新车报价系统，结合新车图库</p></div><div class="card"><h3>病毒式营销系统</h3><p>为公司设计病毒式网站营销系统</p></div><div class="card"><h3>SMD资讯网</h3><p>到南京后的第一个网站项目，一个专业的SMD资讯门户网，与技术经理合作共同完成网站建设</p></div><div class="card"><h3>阿赛个人主页</h3><p>设计精美的原创个人网站程序，纯设计类的个人网站系统，采用当时很流行的小清新配色，全站设计协调，程序严谨，深受网友赞誉的一套早期系统。</p></div><div class="card"><h3>南京教育网</h3><p>新南京旗下致力于南京本土的专业教育网</p></div><div class="card"><h3>南京游玩网</h3><p>新南京旗下致力于南京本土的旅游、吃喝玩乐住行网</p></div><div class="card"><h3>旗旗芽个人网站</h3><p>精美设计的个人网站系统</p></div><div class="card"><h3>爱课驿</h3><p>项目组开发的大型教学资源入库搜索网</p></div><div class="card"><h3>教师论坛</h3><p>项目组开发的优秀多功能互动论坛</p></div><div class="card"><h3>TXT网络日记本</h3><p>简约的以普通的TXT文本文件为数据库的网站程序</p></div><div class="card"><h3>EXCEL文章系统</h3><p>单个文件实现的以EXCEL为数据库的文章系统</p></div><div class="card"><h3>小草涯</h3><p>早期运营的一个交友类型粉色系网站，功能强大，最好的时候日均访问过万，成功配对数千对新人。</p></div><div class="card"><h3>一百字</h3><p>个性化的一百字系统，通过顶、降功能挑出年度最佳一百字，由此系统衍生的顶、降功能一直被很多大型网站和互动社区袭用至今。</p></div><div class="card"><h3>网上考试系统</h3><p>共经历4个版本，针对学校在线网络考试创设的大型考试系统</p></div><div class="card"><h3>阿赛博客</h3><p>早期的一个简单博客系统，注重设计，功能简约而不简单</p></div><div class="card"><h3>阿赛工作室</h3><p>出品各类企业、行业、门户建站系统，对ASP精益求精的探索，不断革新各种技术和网页实现模式。</p></div><div class="card"><h3>阿赛工作室 FLASH版</h3><p>一套纯FLASH版的个人网站系统</p></div><div class="card"><h3>宋校长留言板</h3><p>一款为高层管理人员量身定做的留言系统</p></div><div class="card"><h3>植物生理学多媒体课程</h3><p>容各类教学功能与一体，集成聊天系统、考试系统、论坛、留言、文章、图片、下载、视频等</p></div>
-        </div>
-      </section>
-
-      <!-- 用户中心 -->
-      <section id="userasai">
-        <div class="user-panel">
-          <h2 class="section-title" style="color: white">用户中心</h2>
-          <p>获取最新资源、参与社区讨论、管理个人账户</p>
-          <a href="#login" class="btn" style="margin-top: 1.5rem">立即登录</a>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="footer-content">
-        <div class="footer-grid">
-          <!-- 网站简介 -->
-          <div class="footer-section">
-            <h4 class="footer-title">AI+技术探索者</h4>
-            <p class="footer-text">
-              以代码为笔，以思想为墨<br />在数字AI世界书写人文篇章
-            </p>
-            <div class="footer-social">
-              <a href="#github" class="social-link">GitHub</a>
-              <a href="#weibo" class="social-link">微博</a>
-              <a href="#zhihu" class="social-link">知乎</a>
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-title">2009-2018 - 生产设备电子商务平台</h3>
+              <p class="timeline-text">
+                中国设备联盟(技术入股)：带领团队完成旗下十二个行业网站的前端交互改版升级、底层技术重构及平台维护与运营工作，提升整个平台的竞争力。技术总监：定期培训，平台计划性重构与升级开发，解决数据查询优化、服务器安全等问题，日常化运维与新需求计划制定。
+              <div class="timeline-tag">/ js / css / html / asp / mssql / vue / bootstrap / jq / 管理
+                / 运维 / 服务器 / 安全 / 数据库/
+              </div>
+              </p>
             </div>
           </div>
+        </div>
 
-          <!-- 快速导航 -->
-          <div class="footer-section">
-            <h4 class="footer-title">快速导航</h4>
-            <ul class="footer-links">
-              <li><a href="#aboutasai">关于阿赛</a></li>
-                <li><a href="#fieldasai">技术领域</a></li>
-                  <li><a href="#groupasai">成长脚印</a></li>
-                    <li><a href="#openasai">开源项目</a></li>
-            </ul>
-          </div>
-
-          <!-- 法律信息 -->
-          <div class="footer-section">
-            <h4 class="footer-title">法律声明</h4>
-            <ul class="footer-links">
-              <li><a href="#privacy">隐私政策</a></li>
-              <li><a href="#terms">服务条款</a></li>
-              <li><a href="#license">内容授权</a></li>
-              <li><a href="#disclaimer">免责声明</a></li>
-            </ul>
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-title">2008-2009 - 汽车交易服务平台</h3>
+              <p class="timeline-text">
+                南京二手车网、新车网、租车网：负责旧站改版，并完成新车网、租车网及其他特需项目的前端设计、后端数据库与程序开发，提升公司已有产品运营能力，新增关联平台拓宽业务范围。技术主管：旧版二手车网站的重构与优化，新车网、租车网的设计开发到上线。
+              <div class="timeline-tag">
+                / js / css / html / asp / mssql / 技术架构 / 网站重构 /
+                技术管理/
+              </div>
+              </p>
+            </div>
           </div>
         </div>
 
-        <!-- 版权信息 -->
-        <div class="footer-bottom">
-          <div class="copyright">© 2001-2025 阿赛个人主页 版权所有</div>
-          <div class="icp-info">
-            <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener">
-              京ICP备12345678号-1
-            </a>
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-title">2007-2008 - 电子元器件资讯网</h3>
+              <p class="timeline-text">
+                SMD资讯网，辞去教师工作来到南京后的第一个网站项目，含资讯、论坛、商品展示等，提升用户体验。网站开发：公司网站设计与开发，SMD行业资讯网站的前后端开发。
+              <div class="timeline-tag">
+                / js / css / html / asp / mssql / 网站开发 / 网页设计/
+              </div>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-title">2005-2007 - 中学网站CMS系统</h3>
+              <p class="timeline-text">
+                完成在职学校官网、在职学科社区等一系列学校网络服务系统的开发。任职生物教师、物理教师、计算机管理员，并负责学校网络建设及机房管理。
+              <div class="timeline-tag">
+                / js / css / html / asp / access / mssql / 网络管理 / 电脑硬件
+                / 多媒体教学 / 校园网开发 / 学科网开发/
+              </div>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-title">2002-2005 - 精品课程网站</h3>
+              <p class="timeline-text">
+                植物生理学网络课程建设，根据大学导师需求，从事教学素材收集、flash动画制作，以及网络课程、社区论坛、在线考试等综合功能网站开发。大学时代：兴趣爱好网站建设，特别自学计算机相关知识，毕业论文是精品课程建设，并获得院系第一名，学校优秀毕业论文。
+              <div class="timeline-tag">
+                / js / css / html / ppt / flash / asp / access / 课件制作 /
+                网站架构 / 网站运维 / 网站开发 / 考试系统/
+              </div>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 时间轴条目 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              ♚
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-title">2001-至今 - 自研作品</h3>
+              <p class="timeline-text">
+                自学提升作品：阿赛企业、门户、学校网站系统；资讯app、小程序；uniapp+php/mysql全端开发；vue+webpack开发的内容管理CMS；啾噗app等等，拥抱新技术、提升开发能力。业余时间：不断学习最新技术，开发分享开源项目，钻研改善公共模块，涉足网络服务方方面面，扩增知识面。
+              <div class="timeline-tag">
+                / js / css / html / angular / ts / nodejs / sass / i18n /
+                webpack / vue / es6 / AS / VS / VScode / DW / PS / VPN / GIT /
+                SVN / 前端 / 后端 / 项目架构 / 项目管理 / 项目运维 / 服务器 /
+                数据库 / 域名 / 备案 / SEO/
+              </div>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </footer>
-    <script>
-      // 滚动动画控制
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = "translateY(0)";
-          }
-        });
-      });
-      // 段落滚动动画
-      const paragraphObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      });
+    </section>
 
-      document.querySelectorAll(".paragraph-group").forEach((el) => {
-        paragraphObserver.observe(el);
-      });
-      // 为所有卡片添加动画
-      document.querySelectorAll(".card").forEach((el) => {
-        el.style.opacity = 0;
-        el.style.transform = "translateY(30px)";
-        el.style.transition = "all 0.6s ease-out";
-        observer.observe(el);
-      });
+    <!-- 开源项目 -->
+    <section id="openasai" class="special-block">
+      <div class="text-section">
+        <div class="section-header">
+          <h2 class="section-title">开源项目</h2>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>阿赛企业网站系统</h3>
+            <p>阿赛企业网站系统从2005年着手开发，自发布第一版以来，深受网友喜爱，是迄今企业建站最受欢迎的ASP开源系统，如今已经发布到第十九版，功能更完善、运行更稳定、更安全。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛门户网站系统</h3>
+            <p>阿赛门户网站系统为开源系统，对外分享期间得到大批网友认可，全站源码均原创架构设计，各套系统中可以自由组合搭配，提供完全自定义方式建站，前后台完全分离，功能丰富强大。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛无数据库简易留言本</h3>
+            <p>无数据库采用FSO直接储存留言，第一次将数据库存储媒介罢用，采用全新的缓存、txt及其他文本类文件储存信息。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛树形论坛</h3>
+            <p>生成HTML的个性树形论坛，提供大树（无限分支看帖、回帖模式）、小树（两层看帖、发帖模式）两种，多应用彩票、快捷信息交换平台，共计发布了五个版本，每个版本各不相同，满足不同客户需求。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛无数据库简易留言本</h3>
+            <p>无数据库采用FSO直接储存留言，第一次将数据库存储媒介罢用，采用全新的缓存、txt及其他文本类文件储存信息。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛文章系统</h3>
+            <p>安全实用的生成HTML文章系统，全站HTML生成，全静态访问，适用于各类独立自媒体网站系统。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛问吧</h3>
+            <p>功能媲敌百度问吧，以临摹为主，代码为原创架构，更简洁的流程与程序设计完成强大的百度问吧功能。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛订单系统</h3>
+            <p>实用的订单系统，开发出独立的订单处理接口，可以对接入不同的建站系统之中，也可以独立用来礼物发放、商品出售活动。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛在线HTML编辑器</h3>
+            <p>漂亮、简单实用的在线HTML编辑器，纯JS实现，运行速度极快，兼容所有老旧或新款浏览器。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛广告点击计数器</h3>
+            <p>假设您要统计从自己网站点击链接到别人网站的次数，无需添加统计代码，即可即时统计点击次数。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛单文件表单提交处理系统</h3>
+            <p>实用的表单提交系统，用来采集用户信息，或投票结果、用户意向调查等。</p>
+          </div>
+          <div class="card">
+            <h3>芳涯论坛</h3>
+            <p>原创的UBB代码，大型互动交友论坛</p>
+          </div>
+          <div class="card">
+            <h3>大型互动社区</h3>
+            <p>由“乔客”改版的大型门户型网站系统，为企业第三方定制版本</p>
+          </div>
+          <div class="card">
+            <h3>阿赛网址导航系统</h3>
+            <p>有别于现行所有的网址导航系统，采用动（ASP版）静（HTML版）结合，只需修改一个数字，即可完成动静网站的转换，相当轻松、易用。</p>
+          </div>
+          <div class="card">
+            <h3>阿赛文件上传系统</h3>
+            <p>文件上传的一套系统 。主要用于网站的文件上传</p>
+          </div>
+          <div class="card">
+            <h3>阿赛芳涯学校网站系统</h3>
+            <p>
+              阿赛芳涯学校网站系统为动易3.6改版而来，修改其中每一个程序，完善后台功能，并加入了采集功能，高级编辑器等时下流行元素，同时重新构架前台和用户投稿等功能，并着力加强管理员后台功能，使大家使用更方便，更快捷，学校网站栏目经过精心策划，只需稍作改动，替换站内图片即可实现一个新的学校网站的建立。
+            </p>
+          </div>
+          <div class="card">
+            <h3>阿赛左右分栏论坛系统</h3>
+            <p>
+              本系统采用‌左右分栏交互设计‌，优化超宽屏操作效率，支持主题列表与内容区独立展示‌。提供‌多样化内容展示‌（置顶/精华/热门贴）与个性化标题色彩配置‌，集成‌HTML可视化编辑器‌及前台管理功能，实现帖子实时编辑与权限控制‌。支持‌短消息互动‌与‌自定义头像‌增强用户粘性‌，搭配‌多风格皮肤切换‌提升视觉体验‌。后台支持公告发布、图文推荐等管理功能，并内置安全防护机制保障数据可靠性‌。
+            </p>
+          </div>
+          <div class="card">
+            <h3>阿赛聊天系统</h3>
+            <p>
+              本聊天系统支持点击用户名快速选定对话对象‌，通过Enter键实现连续消息发送‌，集成表情库增强交互‌。导航下拉菜单支持全局界面跳转‌，历史记录查询与登录验证机制保障数据安全‌。提供私聊/公开双模式‌，发言内容以颜色区分来源（绿色：自己，黄色：私信，灰色：他人对话，白色：全体消息）‌。支持SQL/Access双数据库存储‌，可与企业门户无缝整合‌，内置SQL注入过滤与批量消息管理功能，结合Ajax技术实现无刷新流畅体验‌
+            </p>
+          </div>
+          <div class="card">
+            <h3>阿赛网址导航系统</h3>
+            <p>阿赛独立架构，有别于现行所有的网址导航系统，采用动（ASP版）静（HTML版）结合，只需修改一个数字，即可完成动静网站的转换，相当轻松、易用。</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      // 菜单切换
-      function toggleMenu() {
-        const navLinks = document.querySelector(".nav-links");
-        navLinks.classList.toggle("active");
-      }
+    <!-- 友情快链 -->
+    <section id="linkasai">
+      <div class="section-header">
+        <h2 class="section-title">友情快链</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <h3>酷嘟嘟</h3>
+          <p>
+            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+          </p>
+        </div>
+        <div class="card">
+          <h3>阿赛物联网系统</h3>
+          <p>
+            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+          </p>
+        </div>
+        <div class="card">
+          <h3>阿赛原创音乐</h3>
+          <p>
+            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+          </p>
+        </div>
+        <div class="card">
+          <h3>长篇小说《墓族》</h3>
+          <p>
+            出版技术散文集《代码与诗》，业余从事数字艺术创作，探索AI生成艺术的创新应用...
+          </p>
+        </div>
+        <div class="card">
+          <h3>华为PPS广告投放系统</h3>
+          <p>(外协)基于angular的投放端和基于vue的管理端，采用typescript开发，涉及大量数据处理逻辑与数据导入导出，以及数据图表渲染等前端能力。</p>
+        </div>
+        <div class="card">
+          <h3>华为创意广告设计平台</h3>
+          <p>(外协)熟练运用vue/es6/axios/webpack等技术部署开发与发布环境，制作在线版图片、H5页面编辑器。</p>
+        </div>
+        <div class="card">
+          <h3>华为主题开发工具</h3>
+          <p>
+            (外协)基于electron/vue/nodejs架设开发环境，涉及H5/CSS3/JS/ES6/VUE/NODEJS/ELECTRON/WEBPACK/SVG/CANVAS/ANIMATION/SASS/LESS等技术开发win/Mac全端全球适配的IDE。
+          </p>
+        </div>
+        <div class="card">
+          <h3>车商记</h3>
+          <p>二手车车商记账本，基于uni-app安卓、苹果APP开发。</p>
+        </div>
+        <div class="card">
+          <h3>机电牛</h3>
+          <p>平台的架构、数据库、WEB前端设计、程序开发、上线等，独立完成全部工作。机电牛jidianniu.com是国内首家专业专用车服务平台，含车型数据中心、配套商城、租赁服务、专用车论坛、国家专用车公告查询等项目。
+          </p>
+        </div>
+        <div class="card">
+          <h3>生易网</h3>
+          <p>生物医药科技B2B平台，需求分析、网站架构、设计开发、上线运营与维护等全部工作</p>
+        </div>
+        <div class="card">
+          <h3>中国设备联盟</h3>
+          <p>生产设备B2B平台，带队完成旗下十二个网站的改版、重新架构、平台维护与运营工作。中国最大、最专业、信息量最大的设备B2B网站</p>
+        </div>
+        <div class="card">
+          <h3>中国船舶设备网</h3>
+          <p>设备联盟旗下专业的船舶设备网</p>
+        </div>
+        <div class="card">
+          <h3>中国石油物资网</h3>
+          <p>设备联盟旗下专业的石油物资设备网站</p>
+        </div>
+        <div class="card">
+          <h3>化工设备网</h3>
+          <p>设备联盟旗下专业的化工设备网</p>
+        </div>
+        <div class="card">
+          <h3>中国物流设备网</h3>
+          <p>设备联盟旗下专业的物流设备配套网站</p>
+        </div>
+        <div class="card">
+          <h3>中国电力设备网</h3>
+          <p>设备联盟旗下专业的电力设备网</p>
+        </div>
+        <div class="card">
+          <h3>制药设备网</h3>
+          <p>设备联盟旗下专业的制药设备网</p>
+        </div>
+        <div class="card">
+          <h3>食品设备网</h3>
+          <p>设备联盟旗下专业的食品设备配套</p>
+        </div>
+        <div class="card">
+          <h3>中国冶金设备网</h3>
+          <p>设备联盟旗下专业的冶金制造设备网</p>
+        </div>
+        <div class="card">
+          <h3>中国水处理设备网</h3>
+          <p>设备联盟旗下专业的水处理设备网站</p>
+        </div>
+        <div class="card">
+          <h3>环保设备网</h3>
+          <p>设备联盟旗下专业的环保设备网</p>
+        </div>
+        <div class="card">
+          <h3>中国纺织设备网</h3>
+          <p>设备联盟旗下专业的纺织设备网站</p>
+        </div>
+        <div class="card">
+          <h3>中国矿产设备网</h3>
+          <p>设备联盟旗下专业的矿产设备网站</p>
+        </div>
+        <div class="card">
+          <h3>设备通会员网站</h3>
+          <p>制作各网站的会员网站系统，超阿里巴巴的自主建站系统。</p>
+        </div>
+        <div class="card">
+          <h3>南京搜浪互联</h3>
+          <p>专业互联网技术公司</p>
+        </div>
+        <div class="card">
+          <h3>车疯子、铁锤车检</h3>
+          <p>市场调研、需求分析、网站架构，并独立完成网站设计与开发</p>
+        </div>
+        <div class="card">
+          <h3>新南京</h3>
+          <p>
+            通过市场分析定位门户网站方向，完成网站WEB前端与后台程序设计。新南京的任务是聚合本地1990年至今的所有公开、公共信息，以便大家查阅，我们坚持对每条信息进行严格审核确认，并对外发布，部分信息转载自本地权威网站，如政府、机构、协会、学校等，本着不侵权、不外泄私密信息，不公开有违国家法律的任何信息。
+          </p>
+        </div>
+        <div class="card">
+          <h3>绮思爱</h3>
+          <p>通过调研、出需求说明最终确认项目开发架构方案，独立制作完成所有模块</p>
+        </div>
+        <div class="card">
+          <h3>搜车网——新车站</h3>
+          <p>旗下的新车网</p>
+        </div>
+        <div class="card">
+          <h3>搜车网——二手车站</h3>
+          <p>当时南京地区知名二手车网站</p>
+        </div>
+        <div class="card">
+          <h3>新车团购站</h3>
+          <p>南京本地最专业的新车团购网包含资讯、新车报价、团购等</p>
+        </div>
+        <div class="card">
+          <h3>租车网</h3>
+          <p>中国第一家私人租车网站</p>
+        </div>
+        <div class="card">
+          <h3>搜车买卖通</h3>
+          <p>搜车网二手车车商的网店</p>
+        </div>
+        <div class="card">
+          <h3>新车4S网店</h3>
+          <p>搜车网新车4S店的网店</p>
+        </div>
+        <div class="card">
+          <h3>新车报价网</h3>
+          <p>搜车网新车报价系统，结合新车图库</p>
+        </div>
+        <div class="card">
+          <h3>病毒式营销系统</h3>
+          <p>为公司设计病毒式网站营销系统</p>
+        </div>
+        <div class="card">
+          <h3>SMD资讯网</h3>
+          <p>到南京后的第一个网站项目，一个专业的SMD资讯门户网，与技术经理合作共同完成网站建设</p>
+        </div>
+        <div class="card">
+          <h3>阿赛个人主页</h3>
+          <p>设计精美的原创个人网站程序，纯设计类的个人网站系统，采用当时很流行的小清新配色，全站设计协调，程序严谨，深受网友赞誉的一套早期系统。</p>
+        </div>
+        <div class="card">
+          <h3>南京教育网</h3>
+          <p>新南京旗下致力于南京本土的专业教育网</p>
+        </div>
+        <div class="card">
+          <h3>南京游玩网</h3>
+          <p>新南京旗下致力于南京本土的旅游、吃喝玩乐住行网</p>
+        </div>
+        <div class="card">
+          <h3>旗旗芽个人网站</h3>
+          <p>精美设计的个人网站系统</p>
+        </div>
+        <div class="card">
+          <h3>爱课驿</h3>
+          <p>项目组开发的大型教学资源入库搜索网</p>
+        </div>
+        <div class="card">
+          <h3>教师论坛</h3>
+          <p>项目组开发的优秀多功能互动论坛</p>
+        </div>
+        <div class="card">
+          <h3>TXT网络日记本</h3>
+          <p>简约的以普通的TXT文本文件为数据库的网站程序</p>
+        </div>
+        <div class="card">
+          <h3>EXCEL文章系统</h3>
+          <p>单个文件实现的以EXCEL为数据库的文章系统</p>
+        </div>
+        <div class="card">
+          <h3>小草涯</h3>
+          <p>早期运营的一个交友类型粉色系网站，功能强大，最好的时候日均访问过万，成功配对数千对新人。</p>
+        </div>
+        <div class="card">
+          <h3>一百字</h3>
+          <p>个性化的一百字系统，通过顶、降功能挑出年度最佳一百字，由此系统衍生的顶、降功能一直被很多大型网站和互动社区袭用至今。</p>
+        </div>
+        <div class="card">
+          <h3>网上考试系统</h3>
+          <p>共经历4个版本，针对学校在线网络考试创设的大型考试系统</p>
+        </div>
+        <div class="card">
+          <h3>阿赛博客</h3>
+          <p>早期的一个简单博客系统，注重设计，功能简约而不简单</p>
+        </div>
+        <div class="card">
+          <h3>阿赛工作室</h3>
+          <p>出品各类企业、行业、门户建站系统，对ASP精益求精的探索，不断革新各种技术和网页实现模式。</p>
+        </div>
+        <div class="card">
+          <h3>阿赛工作室 FLASH版</h3>
+          <p>一套纯FLASH版的个人网站系统</p>
+        </div>
+        <div class="card">
+          <h3>宋校长留言板</h3>
+          <p>一款为高层管理人员量身定做的留言系统</p>
+        </div>
+        <div class="card">
+          <h3>植物生理学多媒体课程</h3>
+          <p>容各类教学功能与一体，集成聊天系统、考试系统、论坛、留言、文章、图片、下载、视频等</p>
+        </div>
+      </div>
+    </section>
 
-      // 导航栏交互
-      window.addEventListener("scroll", () => {
-        const nav = document.querySelector("nav");
-        nav.style.background =
-          window.scrollY > 50
-            ? "rgba(255,255,255,0.98)"
-            : "rgba(255,255,255,0.95)";
-      });
+    <!-- 用户中心 -->
+    <section id="userasai">
+      <div class="user-panel">
+        <h2 class="section-title" style="color: white">用户中心</h2>
+        <p>获取最新资源、参与社区讨论、管理个人账户</p>
+        <a href="#login" class="btn" style="margin-top: 1.5rem">立即登录</a>
+      </div>
+    </section>
+  </main>
 
-      // 自动关闭移动菜单
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 768) {
-          document.querySelector(".nav-links").classList.remove("active");
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- 网站简介 -->
+        <div class="footer-section">
+          <h4 class="footer-title">AI+技术探索者</h4>
+          <p class="footer-text">
+            以代码为笔，以思想为墨<br />在数字AI世界书写人文篇章
+          </p>
+          <div class="footer-social">
+            <a href="#github" class="social-link">GitHub</a>
+            <a href="#weibo" class="social-link">微博</a>
+            <a href="#zhihu" class="social-link">知乎</a>
+          </div>
+        </div>
+
+        <!-- 快速导航 -->
+        <div class="footer-section">
+          <h4 class="footer-title">快速导航</h4>
+          <ul class="footer-links">
+            <li><a href="#aboutasai">关于阿赛</a></li>
+            <li><a href="#fieldasai">技术领域</a></li>
+            <li><a href="#groupasai">成长脚印</a></li>
+            <li><a href="#openasai">开源项目</a></li>
+          </ul>
+        </div>
+
+        <!-- 法律信息 -->
+        <div class="footer-section">
+          <h4 class="footer-title">法律声明</h4>
+          <ul class="footer-links">
+            <li><a href="#privacy">隐私政策</a></li>
+            <li><a href="#terms">服务条款</a></li>
+            <li><a href="#license">内容授权</a></li>
+            <li><a href="#disclaimer">免责声明</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 版权信息 -->
+      <div class="footer-bottom">
+        <div class="copyright">© 2001-2025 阿赛个人主页 版权所有</div>
+        <div class="icp-info">
+          <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener">
+            京ICP备12345678号-1
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // 滚动动画控制
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = "translateY(0)";
         }
       });
-    </script>
-  </body>
+    });
+    // 段落滚动动画
+    const paragraphObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    });
+
+    document.querySelectorAll(".paragraph-group").forEach((el) => {
+      paragraphObserver.observe(el);
+    });
+    // 为所有卡片添加动画
+    document.querySelectorAll(".card").forEach((el) => {
+      el.style.opacity = 0;
+      el.style.transform = "translateY(30px)";
+      el.style.transition = "all 0.6s ease-out";
+      observer.observe(el);
+    });
+
+    // 菜单切换
+    function toggleMenu() {
+      const navLinks = document.querySelector(".nav-links");
+      navLinks.classList.toggle("active");
+    }
+
+    // 导航栏交互
+    window.addEventListener("scroll", () => {
+      const nav = document.querySelector("nav");
+      nav.style.background =
+        window.scrollY > 50
+          ? "rgba(255,255,255,0.98)"
+          : "rgba(255,255,255,0.95)";
+    });
+
+    // 自动关闭移动菜单
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) {
+        document.querySelector(".nav-links").classList.remove("active");
+      }
+    });
+  </script>
+</body>
+
 </html>
