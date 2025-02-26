@@ -35,6 +35,8 @@ a,a:link,a:active,a:visited,em{text-decoration:none;color:#585859;}
 a:hover{text-decoration:underline;}
 *{font-family:"微软雅黑","黑体"}
 /**SHOW**/
+.justify {text-align:justify;width:88px;}
+.justify > span { display: inline-block /* Opera */; padding-left: 100%; }
 .b_{border:1px solid;}
 .b_l{border-left:1px solid;}
 .b_r{border-right:1px solid;}
@@ -323,9 +325,12 @@ a.as_btn:hover,.as_btn:hover,.as_btn:focus{border-color:#1565C1;outline: 0;-webk
 .ack_bt,.ack_do{background-color:transparent;margin:-1px -1px -1px -1px;padding:8px 12px;width:auto;}
 .ack_bt{float:left;}
 .ack_do{float:right;position:relative;}
-.ack_us,.ack_uf,.ack_mx,.ack_tm{padding:0px 8px;}
+.ack_us,.ack_uf,.ack_tm{padding:0px 8px;}
 .ack_us,.ack_mx{cursor:pointer;}
-.ack_mx{display:none;position:absolute;top:8px;left:12px;opacity:0.8;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity:0.8;}
+.ack_mx{display:none;position:absolute;top:8px;left:12px;}
+.ack_do{opacity:0.1;filter:alpha(opacity=10);-moz-opacity:0.1;-khtml-opacity:0.1;}
+.ack_do:hover{opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;-khtml-opacity:0.5;}
+.ack_mx span{padding:0px 8px;}
 .ack_k:hover>div>div>.ack_mx{display:inline;}
 .ack_bt{border:1px solid #1976D3;}.ack_us,.ack_mx{background-color:#1976D3;color:#F3FAFD;}.ack_uf,.ack_tm{background-color:#F3FAFD; color:#1976D3;}
 .ack_ty>div>.ack_bt,.ack_ty0>div>.ack_bt,.ack_ty1>div>.ack_bt{border:1px solid #E3F2FE;}
