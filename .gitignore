@@ -1,0 +1,14 @@
+*.rar
+*.txt
+*.mdb
+__mdb/
+/h5/
+_notes/
+/js/AsaiCount/db/
+js/AsaiCount/
+aspnet_client/
+ll/
+_temp/
+___007
+js/AsaiCount/db/
+music/
