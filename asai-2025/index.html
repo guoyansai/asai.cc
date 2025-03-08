@@ -48,6 +48,12 @@
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     }
 
+
+    * {
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+
     .nav-brand {
       font-weight: 700;
       color: var(--palace-red);
@@ -253,6 +259,11 @@
     .timeline-text {
       color: var(--slate-gray);
       line-height: 1.6;
+    }
+
+    .timeline-wok {
+      display: block;
+      color: var(--indigo);
     }
 
     .timeline-tag {
@@ -565,7 +576,7 @@
       <a href="#aboutasai">关于阿赛</a>
       <a href="#fieldasai">技术领域</a>
       <a href="#groupasai">成长脚印</a>
-      <a href="#openasai">开源项目</a>
+      <a href="#openasai">作品记录</a>
       <a href="#linkasai">友情快链</a>
       <a href="#userasai">用户中心</a>
     </div>
@@ -586,18 +597,23 @@
         <h2 class="section-title">关于阿赛</h2>
       </div>
       <div class="card-grid">
+
+        <script src="../js/jl-jj-db.js"></script>
+        <script>
+          var jjHtml = ''
+          for (var i = 0; i < jjData.length; i++) {
+            var tmpItem = jjData[i]
+            if (tmpItem.des) {
+              jjHtml += `
         <div class="card">
-          <h3>全栈经历</h3>
-          <p>
-            2002年开始网站开发，完成学院精品课程网站开发建设及教学动画课件的制作；2005年毕业后从事教师职业，同时完成学校官网建设并负责机房管理；2007年专职互联网工作，带团队并全栈开发，升级与维护二十多个大型网站项目，开源项目阿赛企业网站系统、阿赛门户网站系统、阿赛树型论坛系统、阿赛聊天室系统等各大源码下载网均有收录。全面了解网站平台各项开发事宜，提升解决各类疑难问题能力。
-          </p>
-        </div>
-        <div class="card">
-          <h3>前端探究</h3>
-          <p>
-            2016年聚焦前端技术研发，精通前端HTML5、CSS3、JS、TS、Vue、Angular、Node.js、Vite、Webpack、Electron桌面软件开发、uniapp手机全端开发等。一线主力开发角色，完成十多个前端项目的架构与开发工作，应用新技术、解决疑难点、积累扎实的前端工作经验，坚持"技术驱动价值"理念，擅长将技术创新与商业需求结合，致力于构建高效可维护的现代化Web开发框架体系。
-          </p>
-        </div>
+          <h3>${tmpItem.tit}</h3>
+          <p>${tmpItem.des}</p>
+        </div>`
+            }
+          }
+          document.write(jjHtml)
+        </script>
+
       </div>
     </section>
 
@@ -610,161 +626,23 @@
         </div>
         <!-- 文本容器 -->
         <div class="paragraph-container">
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">全栈开发与系统架构</h3>
-            <div class="paragraph-text">
-              <p>
-                主导从数据库设计到前端交互的全流程开发，构建高可用性系统架构，实现前后端技术栈无缝衔接，支撑百万级用户量业务系统稳定运行‌
-              </p>
-              <p>
-                ‌核心技术‌：Node.js、MySQL/MSSQL、Vue.js、Angular、Webpack
-              </p>
-            </div>
-          </div>
 
-          <!-- 段落组 -->
+          <script src="../js/jl-jn-db.js"></script>
+          <script>
+            var jnHtml = ''
+            for (var i = 0; i < jnData.length; i++) {
+              var tmpItem = jnData[i]
+              jnHtml += `
           <div class="paragraph-group">
-            <h3 class="paragraph-title">跨平台桌面应用开发</h3>
+            <h3 class="paragraph-title">${tmpItem.tit}</h3>
             <div class="paragraph-text">
-              <p>
-                开发高性能跨平台桌面工具，集成自动化脚本与本地API调用能力，提升企业级用户操作效率30%以上，适配Windows/macOS双端需求‌
-              </p>
-              <p>
-                技术实现‌：Electron、Vue3、TypeScript、IPC通信
-              </p>
+              <p>${tmpItem.des}</p>
+              <p>${tmpItem.key}</p>
             </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">‌低代码平台研发</h3>
-            <div class="paragraph-text">
-              <p>
-                构建企业级低代码开发平台，通过模块化组件库与动态表单引擎，将常规业务系统开发周期缩短60%，支撑10+业务线快速迭代‌
-              </p>
-              <p>
-                技术沉淀‌：元数据驱动设计、可视化编排引擎、Axios接口标准化
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">多终端适配开发</h3>
-            <div class="paragraph-text">
-              <p>
-                实现「一次开发多端发布」解决方案，覆盖iOS/Android/Web/H5全终端场景，通过动态主题引擎保障多品牌视觉风格统一‌
-              </p>
-              <p>
-                技术方案‌：Uni-app跨端框架、Flex布局、响应式设计
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">‌前端工程化建设</h3>
-            <div class="paragraph-text">
-              <p>
-                搭建企业级前端脚手架体系，集成代码规范检测与性能监控工具，团队开发效率提升40%，线上错误率下降65%‌
-              </p>
-              <p>
-                核心能力‌：Webpack深度优化、CI/CD流水线、自动化测试
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">数据可视化与BI工具</h3>
-            <div class="paragraph-text">
-              <p>
-                开发智能数据看板系统，支持TB级数据实时分析可视化，通过WebGL加速技术实现毫秒级图表渲染，赋能业务决策效率‌
-              </p>
-              <p>
-                技术栈‌：ECharts、Canvas渲染、大数据量优化
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">‌微前端架构实践</h3>
-            <div class="paragraph-text">
-              <p>
-                重构遗留单体系统为微前端架构，实现多团队并行开发与独立部署，系统维护成本降低50%，版本发布频率提升3倍‌
-              </p>
-              <p>
-                技术突破‌：qiankun微应用沙箱、状态隔离、依赖共享
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">移动端混合开发</h3>
-            <div class="paragraph-text">
-              <p>
-                构建Hybrid移动应用框架，集成蓝牙打印、OCR识别等硬件功能，核心页面加载速度优化至1秒内，用户留存率提升25%‌
-              </p>
-              <p>
-                技术整合‌：Cordova插件开发、原生能力调用、性能调优
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">‌前端安全防护体系</h3>
-            <div class="paragraph-text">
-              <p>
-                建立前端安全防护规范，通过自动化渗透测试工具发现并修复200+高危漏洞，保障金融级业务系统零安全事故运行‌
-              </p>
-              <p>
-                防护策略‌：XSS/CSRF防御、CSP策略配置、敏感数据加密
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">‌团队效能提升</h3>
-            <div class="paragraph-text">
-              <p>
-                建立标准化研发流程与人才梯队培养机制，团队年度需求交付量增长120%，新人上手周期从3个月压缩至3周‌
-              </p>
-              <p>
-                ‌管理成果‌：技术评审体系、知识库建设、自动化文档生成
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">音视频处理技术</h3>
-            <div class="paragraph-text">
-              <p>
-                开发在线会议系统，支持1080P高清视频传输与智能降噪功能，延迟控制在200ms以内，支撑日均10万+分钟通话量‌
-              </p>
-              <p>
-                技术实现‌：WebRTC实时通信、FFmpeg转码、流媒体传输
-              </p>
-            </div>
-          </div>
-
-          <!-- 段落组 -->
-          <div class="paragraph-group">
-            <h3 class="paragraph-title">智能运维工具链</h3>
-            <div class="paragraph-text">
-              <p>
-                构建DevOps工具平台，实现服务器资源利用率智能调度与故障自愈，运维人力投入减少70%，系统可用性达99.99%‌
-              </p>
-              <p>
-                ‌技术整合‌：Shell脚本自动化、日志监控系统、异常预警
-              </p>
-            </div>
-          </div>
+          </div>`
+            }
+            document.write(jnHtml)
+          </script>
 
         </div>
       </div>
@@ -776,7 +654,13 @@
         <h2 class="section-title">成长脚印</h2>
       </div>
       <div class="timeline-container">
-        <!-- 时间轴条目 -->
+
+        <script src="../js/jl-xm-db.js"></script>
+        <script>
+          var xmHtml = ''
+          for (var i = 0; i < xmData.length; i++) {
+            var tmpItem = xmData[i]
+            xmHtml += `
         <div class="timeline-item">
           <div class="timeline-content">
             <div class="timeline-icon">
@@ -784,247 +668,47 @@
             </div>
             <div class="timeline-body">
               <h3 class="timeline-title">
-                2019-2022 - 桌面工具及平台前端开发
+                ${tmpItem.oth} - ${tmpItem.tit}
               </h3>
               <p class="timeline-text">
-                桌面工具：基于electron/vue/nodejs/前端技术开发Win/Mac全端全球适配的IDE，通过元数据驱动视图原理开发所见即所得主题开发工具；低代码平台：运用vue/es6/axios/webpack等技术，采用编辑预览通过模型数据双向绑定全新架构，提升开发体验，实现制作图片、H5等功能；推广系统：支撑海内外广告投放的Angular项目开发；广告平台：基于Vue全新的模块化设计架构，实现低耦合开发，自研设计本地调试开发mock架构，让开发更高效、更灵活。技术架构：前端项目技术选型、架构设计、开发启动与升级维护等；项目管理：负责前端团队的开发总调；新员工培训导师：每月一次的新员工入职技术培训；前端技能鉴定组长：每年两次的前端技能鉴定组组长、命题人；另有前端面试、代码review、安全检视等。
+                ${tmpItem.des}
+              <div class="timeline-wok">${tmpItem.wok}</div>
               <div class="timeline-tag">
-                / js / css / html / nodejs / vue / electron / sass / less /
-                svg / canvas / i18n / webpack / es6 / elementUI / axios /
-                angular / ts / 讲师 / 培训 / 导师 / 架构师 / 项目管理 / 命题 /
-                面试 /
+                ${tmpItem.key}
               </div>
               </p>
             </div>
           </div>
-        </div>
+        </div>`
+          }
+          document.write(xmHtml)
+        </script>
 
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">
-                2018-2019 - 自由工作接单开发各种类型网站及手机软件开发
-              </h3>
-              <p class="timeline-text">
-                生物医药科技行业网站：参与需求分析、网站架构、前端页面设计、UX交互设计、设计开发、上线运营与维护等创业全线工作；二手车检测服务平台：市场调研、需求分析、网站架构，并独立完成网站设计与开发；专用车电子商务平台：按BOSS口述需求独立完成平台的架构、数据库、WEB前端设计、程序开发、上线部署等全部开发工作；车商记账统计服务：使用VUE框架、uni-app进行APP前端开发，同时制作官方网站及相关宣传页等。自由开发者：与朋友合伙接单各种平台、网站、软件等需求开发。
-              <div class="timeline-tag">
-                / js / css / html / bootstrap / jq / php / mysql / asp / mssql
-                / vue / uniapp / es6 / nodejs / less / canvas / 团队协作/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">2009-2018 - 生产设备电子商务平台</h3>
-              <p class="timeline-text">
-                中国设备联盟(技术入股)：带领团队完成旗下十二个行业网站的前端交互改版升级、底层技术重构及平台维护与运营工作，提升整个平台的竞争力。技术总监：定期培训，平台计划性重构与升级开发，解决数据查询优化、服务器安全等问题，日常化运维与新需求计划制定。
-              <div class="timeline-tag">/ js / css / html / asp / mssql / vue / bootstrap / jq / 管理
-                / 运维 / 服务器 / 安全 / 数据库/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">2008-2009 - 汽车交易服务平台</h3>
-              <p class="timeline-text">
-                南京二手车网、新车网、租车网：负责旧站改版，并完成新车网、租车网及其他特需项目的前端设计、后端数据库与程序开发，提升公司已有产品运营能力，新增关联平台拓宽业务范围。技术主管：旧版二手车网站的重构与优化，新车网、租车网的设计开发到上线。
-              <div class="timeline-tag">
-                / js / css / html / asp / mssql / 技术架构 / 网站重构 /
-                技术管理/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">2007-2008 - 电子元器件资讯网</h3>
-              <p class="timeline-text">
-                SMD资讯网，辞去教师工作来到南京后的第一个网站项目，含资讯、论坛、商品展示等，提升用户体验。网站开发：公司网站设计与开发，SMD行业资讯网站的前后端开发。
-              <div class="timeline-tag">
-                / js / css / html / asp / mssql / 网站开发 / 网页设计/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">2005-2007 - 中学网站CMS系统</h3>
-              <p class="timeline-text">
-                完成在职学校官网、在职学科社区等一系列学校网络服务系统的开发。任职生物教师、物理教师、计算机管理员，并负责学校网络建设及机房管理。
-              <div class="timeline-tag">
-                / js / css / html / asp / access / mssql / 网络管理 / 电脑硬件
-                / 多媒体教学 / 校园网开发 / 学科网开发/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">2002-2005 - 精品课程网站</h3>
-              <p class="timeline-text">
-                植物生理学网络课程建设，根据大学导师需求，从事教学素材收集、flash动画制作，以及网络课程、社区论坛、在线考试等综合功能网站开发。大学时代：兴趣爱好网站建设，特别自学计算机相关知识，毕业论文是精品课程建设，并获得院系第一名，学校优秀毕业论文。
-              <div class="timeline-tag">
-                / js / css / html / ppt / flash / asp / access / 课件制作 /
-                网站架构 / 网站运维 / 网站开发 / 考试系统/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 时间轴条目 -->
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-icon">
-              ♚
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-title">2001-至今 - 自研作品</h3>
-              <p class="timeline-text">
-                自学提升作品：阿赛企业、门户、学校网站系统；资讯app、小程序；uniapp+php/mysql全端开发；vue+webpack开发的内容管理CMS；啾噗app等等，拥抱新技术、提升开发能力。业余时间：不断学习最新技术，开发分享开源项目，钻研改善公共模块，涉足网络服务方方面面，扩增知识面。
-              <div class="timeline-tag">
-                / js / css / html / angular / ts / nodejs / sass / i18n /
-                webpack / vue / es6 / AS / VS / VScode / DW / PS / VPN / GIT /
-                SVN / 前端 / 后端 / 项目架构 / 项目管理 / 项目运维 / 服务器 /
-                数据库 / 域名 / 备案 / SEO/
-              </div>
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- 开源项目 -->
+    <!-- 作品记录 -->
     <section id="openasai" class="special-block">
       <div class="text-section">
         <div class="section-header">
-          <h2 class="section-title">开源项目</h2>
+          <h2 class="section-title">作品记录</h2>
         </div>
         <div class="card-grid">
+
+          <script src="../js/jl-zp-db.js"></script>
+          <script>
+            var zpHtml = ''
+            for (var i = 0; i < zpData.length; i++) {
+              var tmpItem = zpData[i]
+              zpHtml += `
           <div class="card">
-            <h3>阿赛企业网站系统</h3>
-            <p>阿赛企业网站系统从2005年着手开发，自发布第一版以来，深受网友喜爱，是迄今企业建站最受欢迎的ASP开源系统，如今已经发布到第十九版，功能更完善、运行更稳定、更安全。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛门户网站系统</h3>
-            <p>阿赛门户网站系统为开源系统，对外分享期间得到大批网友认可，全站源码均原创架构设计，各套系统中可以自由组合搭配，提供完全自定义方式建站，前后台完全分离，功能丰富强大。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛无数据库简易留言本</h3>
-            <p>无数据库采用FSO直接储存留言，第一次将数据库存储媒介罢用，采用全新的缓存、txt及其他文本类文件储存信息。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛树形论坛</h3>
-            <p>生成HTML的个性树形论坛，提供大树（无限分支看帖、回帖模式）、小树（两层看帖、发帖模式）两种，多应用彩票、快捷信息交换平台，共计发布了五个版本，每个版本各不相同，满足不同客户需求。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛无数据库简易留言本</h3>
-            <p>无数据库采用FSO直接储存留言，第一次将数据库存储媒介罢用，采用全新的缓存、txt及其他文本类文件储存信息。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛文章系统</h3>
-            <p>安全实用的生成HTML文章系统，全站HTML生成，全静态访问，适用于各类独立自媒体网站系统。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛问吧</h3>
-            <p>功能媲敌百度问吧，以临摹为主，代码为原创架构，更简洁的流程与程序设计完成强大的百度问吧功能。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛订单系统</h3>
-            <p>实用的订单系统，开发出独立的订单处理接口，可以对接入不同的建站系统之中，也可以独立用来礼物发放、商品出售活动。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛在线HTML编辑器</h3>
-            <p>漂亮、简单实用的在线HTML编辑器，纯JS实现，运行速度极快，兼容所有老旧或新款浏览器。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛广告点击计数器</h3>
-            <p>假设您要统计从自己网站点击链接到别人网站的次数，无需添加统计代码，即可即时统计点击次数。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛单文件表单提交处理系统</h3>
-            <p>实用的表单提交系统，用来采集用户信息，或投票结果、用户意向调查等。</p>
-          </div>
-          <div class="card">
-            <h3>芳涯论坛</h3>
-            <p>原创的UBB代码，大型互动交友论坛</p>
-          </div>
-          <div class="card">
-            <h3>大型互动社区</h3>
-            <p>由“乔客”改版的大型门户型网站系统，为企业第三方定制版本</p>
-          </div>
-          <div class="card">
-            <h3>阿赛网址导航系统</h3>
-            <p>有别于现行所有的网址导航系统，采用动（ASP版）静（HTML版）结合，只需修改一个数字，即可完成动静网站的转换，相当轻松、易用。</p>
-          </div>
-          <div class="card">
-            <h3>阿赛文件上传系统</h3>
-            <p>文件上传的一套系统 。主要用于网站的文件上传</p>
-          </div>
-          <div class="card">
-            <h3>阿赛芳涯学校网站系统</h3>
-            <p>
-              阿赛芳涯学校网站系统为动易3.6改版而来，修改其中每一个程序，完善后台功能，并加入了采集功能，高级编辑器等时下流行元素，同时重新构架前台和用户投稿等功能，并着力加强管理员后台功能，使大家使用更方便，更快捷，学校网站栏目经过精心策划，只需稍作改动，替换站内图片即可实现一个新的学校网站的建立。
-            </p>
-          </div>
-          <div class="card">
-            <h3>阿赛左右分栏论坛系统</h3>
-            <p>
-              本系统采用‌左右分栏交互设计‌，优化超宽屏操作效率，支持主题列表与内容区独立展示‌。提供‌多样化内容展示‌（置顶/精华/热门贴）与个性化标题色彩配置‌，集成‌HTML可视化编辑器‌及前台管理功能，实现帖子实时编辑与权限控制‌。支持‌短消息互动‌与‌自定义头像‌增强用户粘性‌，搭配‌多风格皮肤切换‌提升视觉体验‌。后台支持公告发布、图文推荐等管理功能，并内置安全防护机制保障数据可靠性‌。
-            </p>
-          </div>
-          <div class="card">
-            <h3>阿赛聊天系统</h3>
-            <p>
-              本聊天系统支持点击用户名快速选定对话对象‌，通过Enter键实现连续消息发送‌，集成表情库增强交互‌。导航下拉菜单支持全局界面跳转‌，历史记录查询与登录验证机制保障数据安全‌。提供私聊/公开双模式‌，发言内容以颜色区分来源（绿色：自己，黄色：私信，灰色：他人对话，白色：全体消息）‌。支持SQL/Access双数据库存储‌，可与企业门户无缝整合‌，内置SQL注入过滤与批量消息管理功能，结合Ajax技术实现无刷新流畅体验‌
-            </p>
-          </div>
-          <div class="card">
-            <h3>阿赛网址导航系统</h3>
-            <p>阿赛独立架构，有别于现行所有的网址导航系统，采用动（ASP版）静（HTML版）结合，只需修改一个数字，即可完成动静网站的转换，相当轻松、易用。</p>
-          </div>
+            <h3>${tmpItem.tit}</h3>
+            <p>${tmpItem.des}</p>
+          </div>`
+            }
+            document.write(zpHtml)
+          </script>
+
         </div>
       </div>
     </section>
@@ -1038,19 +722,19 @@
         <div class="card">
           <h3>酷嘟嘟</h3>
           <p>
-            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个作品记录开发...
           </p>
         </div>
         <div class="card">
           <h3>阿赛物联网系统</h3>
           <p>
-            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个作品记录开发...
           </p>
         </div>
         <div class="card">
           <h3>阿赛原创音乐</h3>
           <p>
-            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个开源项目开发...
+            全栈工程师，10年+开发经验，专注分布式系统与前端架构设计，主导多个作品记录开发...
           </p>
         </div>
         <div class="card">
@@ -1296,7 +980,7 @@
             <li><a href="#aboutasai">关于阿赛</a></li>
             <li><a href="#fieldasai">技术领域</a></li>
             <li><a href="#groupasai">成长脚印</a></li>
-            <li><a href="#openasai">开源项目</a></li>
+            <li><a href="#openasai">作品记录</a></li>
           </ul>
         </div>
 
