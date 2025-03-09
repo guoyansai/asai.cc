@@ -1,25 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阿赛asai.cc</title>
+    <title>ASAI.CC - 即将启幕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --palace-red: #9d2933;
-            /* 宫墙朱红 */
-            --glazed-gold: #d4b26a;
-            /* 琉璃瓦金 */
-            --royal-blue: #2a5d84;
-            /* 皇家蓝 */
-            --paper-beige: #f5f1e6;
-            /* 宣纸米白 */
-            --ink-black: #2a2a2a;
-            /* 墨色黑 */
+            --neon-blue: #00f3ff;
+            --deep-space: #0a0a12;
+            --star-light: rgba(255,255,255,0.8);
         }
 
-        /* 基础重置 */
         * {
             margin: 0;
             padding: 0;
@@ -27,190 +19,205 @@
         }
 
         body {
-            background: var(--paper-beige);
-            font-family: 'Microsoft YaHei', sans-serif;
-            line-height: 1.6;
+            background: var(--deep-space);
+            font-family: 'Orbitron', sans-serif;
             min-height: 100vh;
-        }
-
-        /* 主容器 */
-        .nav-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: clamp(1rem, 5vw, 3rem);
-        }
-
-        /* 网格布局 */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: clamp(1rem, 3vw, 2rem);
-            padding: 1rem 0;
-        }
-
-        /* 导航色块 */
-        .nav-card {
-            aspect-ratio: 4/3;
-            background: var(--palace-red);
-            border-radius: 12px;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        .nav-card::before {
-            content: "";
+        .container {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cyber-text {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            background: linear-gradient(135deg, #00f3ff 0%, #0066ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            animation: neonPulse 1.5s ease-in-out infinite alternate;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-bar {
+            width: 80%;
+            max-width: 600px;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin: 2rem auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress {
+            width: 75%;
+            height: 100%;
+            background: linear-gradient(90deg, #0066ff 0%, #00f3ff 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .matrix-bg {
             position: absolute;
-            inset: 0;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            z-index: 1;
         }
 
-        .nav-card:hover {
-            transform: translateY(-5px) rotateZ(0.5deg);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        .contact {
+            margin-top: 3rem;
+            color: var(--star-light);
+            font-family: 'Roboto', sans-serif;
         }
 
-        /* 配色方案 */
-        .gold-bg {
-            background: var(--glazed-gold);
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
 
-        .blue-bg {
-            background: var(--royal-blue);
+        .social-link {
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: opacity 0.3s;
         }
 
-        /* 文字系统 */
-        .nav-content {
+        .social-link:hover {
+            opacity: 0.7;
+        }
+
+        @keyframes neonPulse {
+            from {
+                text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(0, 243, 255, 0.7),
+                            0 0 30px rgba(0, 243, 255, 0.4);
+            }
+        }
+
+        /* 粒子背景动画 */
+        .particles {
             position: absolute;
-            bottom: 15%;
-            left: 10%;
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        .nav-title {
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-desc {
-            font-size: clamp(0.875rem, 1.2vw, 1rem);
-            margin-right: 2.5rem;
-            opacity: 0.9;
-        }
-
-        /* 响应式断点 */
         @media (max-width: 768px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-                max-width: 600px;
-                margin: 0 auto;
+            .cyber-text {
+                font-size: 2.5rem;
             }
-
-            .nav-card {
-                aspect-ratio: 16/9;
+            
+            .status-bar {
+                width: 90%;
             }
-        }
-
-        @media (max-width: 480px) {
-            .nav-content {
-                left: 5%;
-                bottom: 10%;
-            }
-        }
-
-        /* 无障碍优化 */
-        .nav-card:focus-within {
-            outline: 3px solid var(--ink-black);
-            outline-offset: 2px;
         }
     </style>
 </head>
-
 <body>
-    <div class="nav-container">
-        <nav class="grid-layout" aria-label="阿赛网站导航">
-            <a target="_blank" href="./asai-2025/index.html" class="nav-card gold-bg" role="navigation"
-                aria-labelledby="nav1">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛个人主页</h2>
-                    <p class="nav-desc">
-                        HTML+CSS+JS是Web开发的基础，架构设计与技术洞见是Web出彩的关键！</p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-2022/index.html" class="nav-card blue-bg" role="navigation"
-                aria-labelledby="nav2">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛工作室</h2>
-                    <p class="nav-desc">
-                        从2002年开始从事网站开发，乐于研究新技术，与时俱进！
-                    </p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-music/index.html" class="nav-card" role="navigation" aria-labelledby="nav3">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛原创音乐</h2>
-                    <p class="nav-desc">心语心声，音乐随行，乐趣人生。</p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-web-asp/index.html" class="nav-card gold-bg" role="navigation"
-                aria-labelledby="nav1">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛网站系统</h2>
-                    <p class="nav-desc">功能强大、安全稳定、代码简洁、易改易用、全开源、经历十几年发展的专业建站系统。</p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-h5/index.html" class="nav-card blue-bg" role="navigation"
-                aria-labelledby="nav2">
-                <div class="nav-content">
-                    <h2 class="nav-title">H5大世界</h2>
-                    <p class="nav-desc">
-                        H5工具与游戏合集
-                    </p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-ewm/index.html" class="nav-card" role="navigation" aria-labelledby="nav3">
-                <div class="nav-content">
-                    <h2 class="nav-title">二维码工厂</h2>
-                    <p class="nav-desc">在线制作二维码</p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-jl-2022-h5/index.html" class="nav-card gold-bg" role="navigation"
-                aria-labelledby="nav1">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛简历H5</h2>
-                    <p class="nav-desc">H5版本的简历</p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-jl-2022-html/index.html" class="nav-card blue-bg" role="navigation"
-                aria-labelledby="nav2">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛简历Html</h2>
-                    <p class="nav-desc">
-                        HTML页面版本的简历
-                    </p>
-                </div>
-            </a>
-
-            <a target="_blank" href="./asai-jl-2022-txt/index.html" class="nav-card" role="navigation" aria-labelledby="nav3">
-                <div class="nav-content">
-                    <h2 class="nav-title">阿赛简历文本</h2>
-                    <p class="nav-desc">2022版本的文字版本简历</p>
-                </div>
-            </a>
-        </nav>
+    <canvas class="particles" id="particles"></canvas>
+    
+    <div class="container">
+        <h1 class="cyber-text">COMING SOON</h1>
+        <div class="status-bar">
+            <div class="progress"></div>
+        </div>
+        <p class="cyber-text">即将启幕</p>
+        
+        <div class="contact">
+            <p>我们正在构建非凡的企业AI服务与企业建站体验</p>
+            <div class="social-links">
+                <a href="#" class="social-link">asai.cc</a>
+                <a href="#" class="social-link">kududu.com</a>
+            </div>
+        </div>
     </div>
-</body>
 
+    <script>
+        // 粒子背景动画
+        function createParticles() {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            window.addEventListener('resize', resize);
+            resize();
+            
+            const particles = [];
+            const particleCount = window.innerWidth < 768 ? 50 : 100;
+            
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 3 - 1.5;
+                    this.speedY = Math.random() * 3 - 1.5;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x > canvas.width + 20 || this.x < -20 || 
+                        this.y > canvas.height + 20 || this.y < -20) {
+                        this.reset();
+                    }
+                }
+                
+                draw() {
+                    ctx.fillStyle = `rgba(0, 243, 255, ${this.size/3})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            function init() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            init();
+            animate();
+        }
+        
+        window.onload = createParticles;
+    </script>
+</body>
 </html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿赛asai.cc</title>
+    <style>
+        :root {
+            --palace-red: #9d2933;
+            /* 宫墙朱红 */
+            --glazed-gold: #d4b26a;
+            /* 琉璃瓦金 */
+            --royal-blue: #2a5d84;
+            /* 皇家蓝 */
+            --paper-beige: #f5f1e6;
+            /* 宣纸米白 */
+            --ink-black: #2a2a2a;
+            /* 墨色黑 */
+        }
+
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--paper-beige);
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* 主容器 */
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: clamp(1rem, 5vw, 3rem);
+        }
+
+        /* 网格布局 */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
+            padding: 1rem 0;
+        }
+
+        /* 导航色块 */
+        .nav-card {
+            aspect-ratio: 4/3;
+            background: var(--palace-red);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px) rotateZ(0.5deg);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 配色方案 */
+        .gold-bg {
+            background: var(--glazed-gold);
+        }
+
+        .blue-bg {
+            background: var(--royal-blue);
+        }
+
+        /* 文字系统 */
+        .nav-content {
+            position: absolute;
+            bottom: 15%;
+            left: 10%;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-desc {
+            font-size: clamp(0.875rem, 1.2vw, 1rem);
+            margin-right: 2.5rem;
+            opacity: 0.9;
+        }
+
+        /* 响应式断点 */
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .nav-card {
+                aspect-ratio: 16/9;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-content {
+                left: 5%;
+                bottom: 10%;
+            }
+        }
+
+        /* 无障碍优化 */
+        .nav-card:focus-within {
+            outline: 3px solid var(--ink-black);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <nav class="grid-layout" aria-label="阿赛网站导航">
+            <a target="_blank" href="./asai-2025/index.html" class="nav-card gold-bg" role="navigation"
+                aria-labelledby="nav1">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛个人主页</h2>
+                    <p class="nav-desc">
+                        HTML+CSS+JS是Web开发的基础，架构设计与技术洞见是Web出彩的关键！</p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-2022/index.html" class="nav-card blue-bg" role="navigation"
+                aria-labelledby="nav2">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛工作室</h2>
+                    <p class="nav-desc">
+                        从2002年开始从事网站开发，乐于研究新技术，与时俱进！
+                    </p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-music/index.html" class="nav-card" role="navigation" aria-labelledby="nav3">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛原创音乐</h2>
+                    <p class="nav-desc">心语心声，音乐随行，乐趣人生。</p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-web-asp/index.html" class="nav-card gold-bg" role="navigation"
+                aria-labelledby="nav1">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛网站系统</h2>
+                    <p class="nav-desc">功能强大、安全稳定、代码简洁、易改易用、全开源、经历十几年发展的专业建站系统。</p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-h5/index.html" class="nav-card blue-bg" role="navigation"
+                aria-labelledby="nav2">
+                <div class="nav-content">
+                    <h2 class="nav-title">H5大世界</h2>
+                    <p class="nav-desc">
+                        H5工具与游戏合集
+                    </p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-ewm/index.html" class="nav-card" role="navigation" aria-labelledby="nav3">
+                <div class="nav-content">
+                    <h2 class="nav-title">二维码工厂</h2>
+                    <p class="nav-desc">在线制作二维码</p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-jl-2022-h5/index.html" class="nav-card gold-bg" role="navigation"
+                aria-labelledby="nav1">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛简历H5</h2>
+                    <p class="nav-desc">H5版本的简历</p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-jl-2022-html/index.html" class="nav-card blue-bg" role="navigation"
+                aria-labelledby="nav2">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛简历Html</h2>
+                    <p class="nav-desc">
+                        HTML页面版本的简历
+                    </p>
+                </div>
+            </a>
+
+            <a target="_blank" href="./asai-jl-2022-txt/index.html" class="nav-card" role="navigation" aria-labelledby="nav3">
+                <div class="nav-content">
+                    <h2 class="nav-title">阿赛简历文本</h2>
+                    <p class="nav-desc">2022版本的文字版本简历</p>
+                </div>
+            </a>
+        </nav>
+    </div>
+</body>
+
+</html>
